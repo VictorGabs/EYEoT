@@ -50,7 +50,7 @@ public class User {
     @Column(name = "email2", length = 128)
     private String email2;
 
-    @Column(name = "pw", length = 14)
+    @Column(name = "pw")
     private String password;
 
     @OneToMany(mappedBy = "user")

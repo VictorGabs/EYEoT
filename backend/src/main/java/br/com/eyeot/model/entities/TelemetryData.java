@@ -1,8 +1,12 @@
 package br.com.eyeot.model.entities;
 
+import java.net.InetAddress;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import br.com.eyeot.model.entities.datas.AccelerometerData;
 import br.com.eyeot.model.entities.datas.BooleanData;
@@ -43,14 +47,15 @@ public class TelemetryData {
     @Column(name = "id_telemetrydata")
     private Long id;
 
-    @Column(name = "deviceid", nullable = false, length = 8)
-    private String deviceId;
+    @Column(name = "deviceid", nullable = false, length = 8, columnDefinition = "CHAR(8)")
+    private char deviceId;
 
     @Column(name = "timestamp")
     private LocalDateTime timestamp;
 
     @Column(name = "sourceaddress")
-    private String sourceAddress;
+    @JdbcTypeCode(SqlTypes.INET)
+    private InetAddress sourceAddress;
 
     @Column(name = "port")
     private Short port;

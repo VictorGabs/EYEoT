@@ -46,8 +46,8 @@ public class Device {
     @JoinColumn(name = "id_domain")
     private Domain domain;
 
-    @Column(name = "deviceid", nullable = false, length = 8)
-    private String deviceId;
+    @Column(name = "deviceid", nullable = false, length = 8, columnDefinition = "CHAR(8)")
+    private char deviceId;
 
     @Column(name = "creationdate", nullable = false)
     private LocalDateTime creationDate;
