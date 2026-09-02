@@ -70,7 +70,7 @@ public class TokenService {
         if (request.getCookies() == null) return null;
 
         for (Cookie cookie : request.getCookies()) {
-            if ("bmm-advocacia-token".equals(cookie.getName())) {
+            if ("eyeot-token".equals(cookie.getName())) {
                 return cookie.getValue();
             }
         }
