@@ -1,0 +1,84 @@
+mat-card{
+    width: min(400px, 90vw);
+    margin: 1rem;
+    text-align: center;
+    background-color: rgb(67, 67, 67);
+    z-index: 3;
+
+}
+mat-form-field{
+    display: block;
+    margin: 10px 0px;
+}
+
+.mdc-text-field--filled {
+    border-bottom-right-radius: 4px !important;
+    border-bottom-left-radius: 4px !important;
+}
+
+mat-card-header{
+  color:white;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+mat-card-footer{
+  color:white;
+}
+
+mat-card-footer a {
+  color: rgb(186, 149, 88);
+  text-decoration: none;
+  font-weight: 600;
+  transition: .2s;
+}
+
+mat-card-footer a:visited {
+  color: rgb(186, 149, 88);
+}
+
+mat-card-footer a:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+.visibility-button{
+  cursor: pointer;
+}
+
+.btnCadastrar{
+  width: 100%;
+  border-style: none;
+  text-decoration: none;
+  padding: 3%;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  background-color: rgb(186, 149, 88);
+  color:white;
+}
+
+.btnCadastrar:hover{
+  background-color: white;
+  color:black;
+}
+
+
+img{
+  width:80%;
+}
+
+@media (max-width: 600px) {
+
+  mat-card{
+      width: calc(100vw - 2rem);
+      margin: 1rem;
+      padding: 1rem;
+  }
+
+  .btnEntrar{
+      width:100%;
+  }
+
+}

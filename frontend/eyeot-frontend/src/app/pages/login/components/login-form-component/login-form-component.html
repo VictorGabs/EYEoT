@@ -1,0 +1,32 @@
+<app-toast-component></app-toast-component>
+<mat-card>
+    <mat-card-header>
+      <mat-card-title>EYEoT</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form #form="ngForm" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input type="email"  matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher" placeholder="Digite seu email" name="email" required>
+            @if (emailFormControl.hasError('email') && !emailFormControl.hasError('required')) {
+              <mat-error>Por favor insira um email válido!</mat-error>
+            }
+            @if (emailFormControl.hasError('required')) {
+              <mat-error>Email é <strong>obrigatório!</strong></mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Senha</mat-label>
+          <input matInput [formControl]="passwordFormControl" [errorStateMatcher]="matcher" [type]="hide ? 'password' : 'text'" placeholder="Senha" name="senha" required>
+          <mat-icon matSuffix (click)="hide = !hide" class="visibility-button">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            @if (passwordFormControl.hasError('required')) {
+              <mat-error>Senha é <strong>obrigatória!</strong></mat-error>
+            }
+        </mat-form-field>
+        <button class="btnEntrar">Entrar</button>
+      </form>
+    </mat-card-content>
+    <mat-card-footer>
+      <p>Não tem um usuário? <a href="/cadastro">Cadastre-se!</a></p>
+    </mat-card-footer>
+</mat-card>

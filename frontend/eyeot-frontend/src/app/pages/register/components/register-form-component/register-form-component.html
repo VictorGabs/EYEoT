@@ -1,0 +1,53 @@
+<app-toast-component></app-toast-component>
+<mat-card>
+    <mat-card-header>
+      <mat-card-title>EYEoT</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form #form="ngForm" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+          <mat-label>Nome</mat-label>
+          <input matInput matInput [formControl]="nameFormControl" placeholder="Digite seu nome" name="nome" required>
+            @if (nameFormControl.hasError('required')) {
+              <mat-error>Nome é <strong>obrigatório!</strong></mat-error>
+            }
+        </mat-form-field>
+         <mat-form-field>
+          <mat-label>Telefone</mat-label>
+          <input type="tel"  matInput [formControl]="phoneFormControl" [errorStateMatcher]="matcher" placeholder="Digite seu número de telefone" name="phone">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Email Principal</mat-label>
+          <input type="email"  matInput [formControl]="email1FormControl" [errorStateMatcher]="matcher" placeholder="Digite seu email principal" name="email1" required>
+            @if (email1FormControl.hasError('email') && !email1FormControl.hasError('required')) {
+              <mat-error>Por favor insira um email válido!</mat-error>
+            }
+            @if (email1FormControl.hasError('required')) {
+              <mat-error>Email principal é <strong>obrigatório!</strong></mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Email Secundário</mat-label>
+          <input type="email"  matInput [formControl]="email2FormControl" [errorStateMatcher]="matcher" placeholder="Digite seu email secundário" name="email2">
+            @if (email2FormControl.hasError('email') && !email2FormControl.hasError('required')) {
+              <mat-error>Por favor insira um email válido!</mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Senha</mat-label>
+          <input matInput [formControl]="passwordFormControl" [errorStateMatcher]="matcher" [type]="hide ? 'password' : 'text'" placeholder="Senha" name="senha" required>
+          <mat-icon matSuffix (click)="hide = !hide" class="visibility-button">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            @if (passwordFormControl.hasError('minlength') && !passwordFormControl.hasError('required')) {
+              <mat-error>Senha de no mínimo 8 caracteres!</mat-error>
+            }
+            @if (passwordFormControl.hasError('required')) {
+              <mat-error>Senha é <strong>obrigatória!</strong></mat-error>
+            }
+        </mat-form-field>
+        <button class="btnCadastrar">Cadastrar-se</button>
+      </form>
+    </mat-card-content>
+    <mat-card-footer>
+      <p>Já possui uma conta? <a href="/login">Voltar para o login.</a></p>
+    </mat-card-footer>
+</mat-card>
