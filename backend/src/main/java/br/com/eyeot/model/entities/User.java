@@ -53,6 +53,7 @@ public class User {
     @Column(name = "pw")
     private String password;
 
+    @Builder.Default
     @OneToMany(mappedBy = "user")
     private List<Domain> domains  = new ArrayList<>();;
 

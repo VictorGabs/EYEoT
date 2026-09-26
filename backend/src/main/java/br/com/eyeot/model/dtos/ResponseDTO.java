@@ -9,5 +9,9 @@ import lombok.Builder;
 public record ResponseDTO<T>(
         String status,
         String descricao,
-        T data
+        T data,
+        Integer totalPages,
+        Integer pageNumber,
+        long totalElements,
+        Integer pageSize
     ) {}

@@ -1,0 +1,40 @@
+<div class="domain-section">
+  <div class="domain-section-header">
+    <h1 class ="title">Meus Domínios</h1>
+    <mat-divider></mat-divider>
+  </div>
+  @if(this.carregando()){
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
+
+  @else if (this.domains().length > 0) {
+    <div class="domain-section-main">
+      @for (domain of domains(); track domain.id_domain) {
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>{{domain.domainName}}</mat-card-title>
+                <mat-card-subtitle>{{domain.ownerName}}</mat-card-subtitle>
+                <span class="device-count">
+                  Dispositivos: {{ domain.numDevices || 0 }}
+                </span>
+            </mat-card-header>
+            <mat-card-content>
+              <p>{{domain.description}}</p>
+            </mat-card-content>
+            <mat-card-actions align="start">
+                <button mat-button>Ver domínio</button>
+            </mat-card-actions>
+        </mat-card>
+      }
+    </div>
+  } @else {
+    <div class="domain-section-main-empty">
+      <h2>Nenhum domínio cadastrado!</h2>
+      <button matButton (click)="abrirDialogRegisterDomainHome()">
+        <mat-icon aria-hidden="false" aria-label="Cadastrar Domínio">add</mat-icon>
+        <span>Cadastre um novo domínio!</span>
+      </button>
+    </div>
+  }
+
+</div>

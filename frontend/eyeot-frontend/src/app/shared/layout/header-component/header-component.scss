@@ -1,0 +1,28 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+.main-header {
+  padding: 0 6px;
+  position: relative;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, .3);
+  z-index: 9;
+  background-color: white;
+  color: #004aad;
+
+  span{
+    font-weight: 700;
+  }
+
+  button{
+      color: #004aad;
+  }
+
+
+  .branding {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+    margin: 0px 10px;
+  }
+}

@@ -1,0 +1,17 @@
+<mat-toolbar class="main-header">
+
+  <button
+      mat-icon-button
+       (click)="abrirMenu()">
+
+      <mat-icon>menu</mat-icon>
+
+    </button>
+
+  <img class="branding" src="/EYEoT_Logo_Header.png" alt="EYEoT Logo">
+
+
+  <span class="spacer"></span>
+  <button matButton (click)="authService.logout()"><mat-icon aria-hidden="false" aria-label="Logout" fontIcon="exit_to_app"></mat-icon><span>Logout</span></button>
+
+</mat-toolbar>

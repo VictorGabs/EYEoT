@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 public class Sensor {
 
     @EmbeddedId
-    SensorId sensorId;
+    private SensorId sensorId;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @MapsId("id_device")

@@ -1,0 +1,17 @@
+:host {
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+
+  min-height: 0;
+
+  margin: 20px;
+
+  display: flex;
+  flex-direction: column;
+}

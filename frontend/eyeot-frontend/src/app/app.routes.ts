@@ -4,6 +4,8 @@ import { RegisterComponent } from './pages/register/register-component';
 import { redirectAuthenticationGuard } from './core/guards/redirect-authentication-guard/redirect-authentication-guard';
 import { HomeComponent } from './pages/home/home-component';
 import { authGuard } from './core/guards/authentication-guard/auth-guard';
+import { SidenavComponent } from './shared/layout/sidenav-component/sidenav-component';
+import { DomainListComponent } from './pages/domain/domain-list-component/domain-list-component';
 
 export const routes: Routes = [
   {
@@ -23,9 +25,19 @@ export const routes: Routes = [
     canActivate: [redirectAuthenticationGuard]
   },
   {
-    path: 'home',
-    component: HomeComponent,
-    canActivate: [authGuard]
+    path: '',
+    component: SidenavComponent,
+    canActivate: [authGuard],
+    children: [
+      {
+        path: 'home',
+        component: HomeComponent
+      },
+      {
+        path: 'domains',
+        component: DomainListComponent
+      }
+    ]
   }
 
 ];

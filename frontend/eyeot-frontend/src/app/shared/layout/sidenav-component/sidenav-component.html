@@ -1,0 +1,42 @@
+<mat-sidenav-container class="container">
+
+  <mat-sidenav
+    #drawer
+    class="sidebar"
+    mode="over">
+
+    <div class="sidebar-header">
+      <h2>EYEoT</h2>
+    </div>
+
+    <mat-nav-list>
+
+      @for (tab of tabs(); track tab.uuid) {
+        <a
+          mat-list-item
+          [routerLink]="tab.routerLink"
+          routerLinkActive="active"
+          (click)="drawer.close()">
+
+          <mat-icon matListItemIcon>{{tab.icon}}</mat-icon>
+          <span matListItemTitle>{{tab.span}}</span>
+
+        </a>
+      }
+
+
+    </mat-nav-list>
+
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+
+    <app-header-component
+      (menuClick)="drawer.toggle()">
+    </app-header-component>
+
+    <router-outlet></router-outlet>
+
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

@@ -59,6 +59,7 @@ public class SensorType {
     @Column(name = "average_interval")
     private Integer averageInterval;
 
+    @Builder.Default
     @OneToMany(mappedBy = "sensorType")
     private List<Sensor> sensors = new ArrayList<>();
 

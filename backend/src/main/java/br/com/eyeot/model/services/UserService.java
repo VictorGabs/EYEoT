@@ -43,7 +43,7 @@ public class UserService {
                     .descricao("Usuário logado com sucesso!")
                     .build()); 
         }
-        return ResponseEntity.internalServerError().body(ResponseDTO.<Void>builder().status(HttpStatus.INTERNAL_SERVER_ERROR.toString()).descricao("Email ou Senha incorretos!").build());
+        return ResponseEntity.internalServerError().body(ResponseDTO.<Void>builder().status(HttpStatus.BAD_REQUEST.toString()).descricao("Email ou Senha incorretos!").build());
     }
 
     @Transactional

@@ -2,7 +2,7 @@ mat-card{
     width: min(400px, 90vw);
     margin: 1rem;
     text-align: center;
-    background-color: rgb(67, 67, 67);
+    background-color: rgb(255, 255, 255);
     z-index: 3;
 
 }
@@ -13,29 +13,29 @@ mat-form-field{
 }
 
 mat-card-header{
-  color:white;
+  color:#004aad;
   display:flex;
   flex-direction: column;
   align-items: center;
 }
 
 mat-card-footer{
-  color:white;
+  color:#004aad;;
 }
 
 mat-card-footer a {
-  color: rgb(186, 149, 88);
+  color: #004aad;
   text-decoration: none;
   font-weight: 600;
   transition: .2s;
 }
 
 mat-card-footer a:visited {
-  color: rgb(186, 149, 88);
+  color: #004aad;
 }
 
 mat-card-footer a:hover {
-  color: white;
+  color: black;
   text-decoration: underline;
 }
 
@@ -51,13 +51,13 @@ mat-card-footer a:hover {
   border-radius: 15px;
   cursor: pointer;
   transition: 0.3s ease;
-  background-color: rgb(186, 149, 88);
-  color:white;
+  background-color: #004aad;
+  color:#FFFFFF;
 }
 
 .btnEntrar:hover{
-  background-color: white;
-  color:black;
+  background-color: black;;
+  color:white;
 }
 
 

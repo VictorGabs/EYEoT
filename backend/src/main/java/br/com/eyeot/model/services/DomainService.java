@@ -1,0 +1,116 @@
+package br.com.eyeot.model.services;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import br.com.eyeot.model.dtos.DomainFiltroDTO;
+import br.com.eyeot.model.dtos.DomainResumeDTO;
+import br.com.eyeot.model.dtos.ResponseDTO;
+import br.com.eyeot.model.dtos.UserDTO;
+import br.com.eyeot.model.dtos.forms.DomainFormDTO;
+import br.com.eyeot.model.entities.Domain;
+import br.com.eyeot.model.repositories.DomainRepository;
+import br.com.eyeot.model.repositories.UserRepository;
+import br.com.eyeot.specifications.DomainSpecification;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+
+@Service 
+@RequiredArgsConstructor 
+public class DomainService {
+
+    private final DomainRepository domainRepository;
+    private final UserRepository userRepository;
+
+    @Transactional 
+    public ResponseEntity<ResponseDTO<Void>> registrarDominio(DomainFormDTO domainFormDTO, UserDTO userDTO){
+        
+        Optional<Domain> domain = this.domainRepository.findByDomainNameAndUser(domainFormDTO.domainName(), userDTO.id_user());
+        
+        if (domain.isPresent()) {
+            return ResponseEntity.badRequest().body(ResponseDTO.<Void>builder().status(HttpStatus.BAD_REQUEST.toString()).descricao("Domínio já cadastrado!").data(null).build());
+        }
+
+        Domain newDomain = new Domain(null, userRepository.findById(userDTO.id_user()).get(), domainFormDTO.domainName(), domainFormDTO.description(), null);
+        domainRepository.save(newDomain);
+
+        return ResponseEntity.ok().body(ResponseDTO.<Void>builder()
+                .status(HttpStatus.OK.toString())
+                .descricao("Domínio registrado com sucesso!").build()); 
+    }
+
+    public ResponseEntity<ResponseDTO<List<DomainResumeDTO>>> listarMeusDominios(UserDTO userDTO){
+        try {
+            List<Domain> entities = domainRepository.findMyDomains(userDTO.id_user());
+            List<DomainResumeDTO> domains = entities.stream().map((domain) -> 
+                new DomainResumeDTO(
+                    domain.getId_domain(), 
+                    userDTO.name(), 
+                    domain.getDomainName(),
+                    domain.getDescription(), 
+                    domain.getDevices().size())).toList();
+
+            return ResponseEntity.ok().body(ResponseDTO.<List<DomainResumeDTO>>builder()
+                .status(HttpStatus.OK.toString())
+                .descricao("Listagem dos meus domínios")
+                .data(domains).build());
+
+        } catch (Exception e) {
+
+            return ResponseEntity.internalServerError().body(ResponseDTO.<List<DomainResumeDTO>>builder()
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.toString())
+                .descricao("Houve um erro ao listar seus domínios, causa:" + e.getMessage())
+                .data(null).build());        }
+    }
+
+    public ResponseEntity<ResponseDTO<List<DomainResumeDTO>>> listarMeusDominiosPaginado(DomainFiltroDTO domainFiltroDTO, UserDTO userDTO, Pageable pageable){
+        try {
+        
+            Specification<Domain> specification = DomainSpecification.comFiltro(domainFiltroDTO, userDTO.id_user());
+
+            
+            Sort sort = Sort.by(Sort.Order.asc("domainName"));
+
+            Pageable pageableOrdenado = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                sort
+            );
+
+            Page<Domain> entities = domainRepository.findAll(specification,pageableOrdenado);
+
+            List<DomainResumeDTO> domains = entities.getContent().stream().map((domain) -> 
+                new DomainResumeDTO(
+                    domain.getId_domain(), 
+                    userDTO.name(), 
+                    domain.getDomainName(),
+                    domain.getDescription(), 
+                    domain.getDevices().size())).toList();
+
+                
+            return ResponseEntity.ok().body(ResponseDTO.<List<DomainResumeDTO>>builder()
+                .status(HttpStatus.OK.toString())
+                .descricao("Listagem dos meus domínios")
+                .data(domains)
+                .pageNumber(entities.getNumber())
+                .totalElements(entities.getTotalElements())
+                .totalPages(entities.getTotalPages())
+                .pageSize(entities.getSize()).build());
+        
+
+        } catch (Exception e) {
+
+            return ResponseEntity.internalServerError().body(ResponseDTO.<List<DomainResumeDTO>>builder()
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.toString())
+                .descricao("Houve um erro ao listar seus domínios, causa:" + e.getMessage())
+                .data(null).build());        }
+    }
+}

@@ -64,6 +64,7 @@ public class Device {
     @Column(name = "altitude", precision = 6, scale = 2)
     private BigDecimal altitude;
 
+    @Builder.Default
     @OneToMany(mappedBy = "device")
     private List<Sensor> sensors = new ArrayList<>();
 

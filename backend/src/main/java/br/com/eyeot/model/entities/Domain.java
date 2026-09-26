@@ -50,6 +50,7 @@ public class Domain {
     @Column(name = "description")
     private String description;
 
+    @Builder.Default
     @OneToMany(mappedBy = "domain")
     private List<Device> devices  = new ArrayList<>();;
 

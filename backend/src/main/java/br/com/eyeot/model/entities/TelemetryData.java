@@ -60,18 +60,23 @@ public class TelemetryData {
     @Column(name = "port")
     private Short port;
 
+    @Builder.Default
     @OneToMany(mappedBy = "telemetryData")
     private List<AccelerometerData> accelerometerData = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "telemetryData")
     private List<GpsData> gpsData = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "telemetryData")
     private List<IntegerData> integerData = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "telemetryData")
     private List<RealData> realData = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "telemetryData")
     private List<BooleanData> booleanData = new ArrayList<>();
 }

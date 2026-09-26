@@ -1,0 +1,15 @@
+<app-toast-component/>
+<div class="header">
+    <div>
+        <h1>Visão geral dos seus domínios</h1>
+        <p>Painel de gestão de domínios.</p>
+    </div>
+
+    <button matButton class="novo-dominio" (click)="abrirDialogRegisterDomainHome()">
+        <mat-icon>add</mat-icon>
+        Novo Domínio
+    </button>
+</div>
+<app-domain-list-filter-component/>
+<app-domain-list-main-component [domains]="domains()"
+  [carregando]="carregando()" [pageSize]="pageSize()" [pageNumber]="pageNumber()" [totalElements]="totalElements()"/>

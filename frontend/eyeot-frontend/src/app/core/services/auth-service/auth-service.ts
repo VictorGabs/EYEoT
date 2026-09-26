@@ -26,7 +26,7 @@ export class AuthService {
       catchError(() => of(null))
     ).subscribe({
             complete: () => {
-                window.location.href = '/interno/login';
+                window.location.href = '/login';
             }
         });
 

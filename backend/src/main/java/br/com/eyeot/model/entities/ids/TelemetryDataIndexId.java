@@ -22,7 +22,6 @@ public class TelemetryDataIndexId implements Serializable {
         this.index = index;
     }
 
-    // getters e setters
 
     @Override
     public boolean equals(Object o) {
