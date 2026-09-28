@@ -1,6 +1,12 @@
 <div class="domain-section">
   <div class="domain-section-header">
-    <h1 class ="title">Meus Domínios</h1>
+    <div class="header-wrap">
+      <h1 class ="title">Meus Domínios</h1>
+      <button matButton class="btn" routerLink="/domains">
+          <mat-icon>arrow_forward</mat-icon>
+          Ver todos
+      </button>
+    </div>
     <mat-divider></mat-divider>
   </div>
   @if(this.carregando()){

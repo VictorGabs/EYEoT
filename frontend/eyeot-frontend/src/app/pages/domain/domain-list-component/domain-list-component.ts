@@ -9,6 +9,8 @@ import { catchError, of, tap } from 'rxjs';
 import { DialogRegisterDomainHomeComponent } from '../domain-home-section-component/components/dialog-register-domain-home-component/dialog-register-domain-home-component';
 import { DomainListMainComponent } from './components/domain-list-main-component/domain-list-main-component';
 import { ToastComponent } from '../../../shared/toast-component/toast-component';
+import { DomainFilterDTO } from '../../../core/model/dtos/domain-filter.dto';
+import { DomainService } from '../../../core/services/domain-service/domain-service';
 
 @Component({
   selector: 'app-domain-list-component',
@@ -22,43 +24,23 @@ export class DomainListComponent {
   readonly dialog = inject (MatDialog);
 
 
-  constructor(private persistenceService:PersistenceService){
-    this.carregarDominios();
+  constructor(private domainService:DomainService){
   }
 
-  domains = signal<DomainResumeDTO[]>([]);
+  filtro: DomainFilterDTO = {};
 
-  carregando = signal(true);
-
-  pageNumber = signal(0);
-  pageSize = signal(10);
-  totalElements = signal(0);
-
-  carregarDominios(){
-     this.persistenceService.getRequest(`/v1/domains/my`)
-          .pipe(
-            tap((response: any) => {
-              this.domains.set(response.data);
-              this.carregando.set(false);
-              this.totalElements.set(response.totalElements ?? 0);
-              this.pageNumber.set(response.pageNumber ?? 0);
-
-            }),
-            catchError((data: any) => {
-              return of(data);
-            })
-          )
-          .subscribe();
+  aplicarFiltro(filtro: DomainFilterDTO) {
+    this.filtro = filtro;
   }
 
   abrirDialogRegisterDomainHome(){
     const dialogRef = this.dialog.open(DialogRegisterDomainHomeComponent)
     dialogRef.afterClosed().subscribe(resultado => {
-      if (resultado?.sucesso) {
-        this.carregando.set(true);
-        this.carregarDominios();
+      if (resultado === true) {
+        this.domainService.notificarAlteracao();
       }
     });
   }
+
 
 }

@@ -1,23 +1,23 @@
 import { PersistenceService } from './../../../core/services/persistence-service/persistence-service';
-import { Component, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { DomainResumeDTO } from '../../../core/model/dtos/domain-resume.dto';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
-import { ErrorStateMatcher } from '@angular/material/core';
-import { FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { catchError, of, tap } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogRegisterDomainHomeComponent } from './components/dialog-register-domain-home-component/dialog-register-domain-home-component';
+import { RouterLink } from '@angular/router';
+import { DomainService } from '../../../core/services/domain-service/domain-service';
 
 
 
 
 @Component({
   selector: 'app-domain-home-section-component',
-  imports: [MatCardModule,MatDividerModule, MatProgressBarModule, MatButtonModule, MatIconModule],
+  imports: [MatCardModule,MatDividerModule, MatProgressBarModule, MatButtonModule, MatIconModule, RouterLink],
   templateUrl: './domain-home-section-component.html',
   styleUrl: './domain-home-section-component.scss',
 })
@@ -26,8 +26,14 @@ export class DomainHomeSectionComponent {
   readonly dialog = inject (MatDialog);
 
 
-  constructor(private persistenceService:PersistenceService){
-    this.carregarDominios();
+  constructor(private domainService: DomainService){
+      effect(() => {
+
+        this.domainService.domainAlterado();
+
+        this.carregarDominios();
+
+      });
   }
 
   domains = signal<DomainResumeDTO[]>([]);
@@ -35,13 +41,14 @@ export class DomainHomeSectionComponent {
   carregando = signal(true);
 
   carregarDominios(){
-     this.persistenceService.getRequest(`/v1/domains/my/resume`)
+     this.domainService.listarDominiosResumo()
           .pipe(
             tap((response: any) => {
               this.domains.set(response.data);
               this.carregando.set(false);
             }),
             catchError((data: any) => {
+              this.carregando.set(false);
               return of(data);
             })
           )
@@ -51,9 +58,9 @@ export class DomainHomeSectionComponent {
   abrirDialogRegisterDomainHome(){
     const dialogRef = this.dialog.open(DialogRegisterDomainHomeComponent)
     dialogRef.afterClosed().subscribe(resultado => {
-      if (resultado?.sucesso) {
+      if (resultado === true) {
         this.carregando.set(true);
-        this.carregarDominios();
+        this.domainService.notificarAlteracao();
       }
     });
   }

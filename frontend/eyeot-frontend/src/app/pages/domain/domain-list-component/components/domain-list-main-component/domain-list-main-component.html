@@ -94,10 +94,11 @@
 
 
     <mat-paginator
-      [length]="totalElements()"
-      [pageIndex]="pageNumber()"
-      [pageSize]="pageSize()"
+      [length]="totalElements"
+      [pageIndex]="pageNumber"
+      [pageSize]="pageSize"
       [pageSizeOptions]="[5, 10, 25, 50]"
+      (page)="mudouPagina($event)"
       showFirstLastButtons
       aria-label="Paginação dos domínios">
     </mat-paginator>

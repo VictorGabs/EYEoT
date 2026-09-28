@@ -10,6 +10,5 @@
         Novo Domínio
     </button>
 </div>
-<app-domain-list-filter-component/>
-<app-domain-list-main-component [domains]="domains()"
-  [carregando]="carregando()" [pageSize]="pageSize()" [pageNumber]="pageNumber()" [totalElements]="totalElements()"/>
+<app-domain-list-filter-component (filtrar)="aplicarFiltro($event)"/>
+<app-domain-list-main-component [filtro]="filtro"/>

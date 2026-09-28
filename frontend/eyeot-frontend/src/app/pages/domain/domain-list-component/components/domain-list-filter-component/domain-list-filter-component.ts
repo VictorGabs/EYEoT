@@ -22,15 +22,26 @@ export class DomainListFilterComponent {
 
   @Output() filtrar = new EventEmitter<DomainFilterDTO>();
 
+  filtro: DomainFilterDTO = {};
+
   readonly panelOpenState = signal(false);
 
   form = new FormGroup({
       busca: new FormControl('')
   })
 
-    aplicarFiltro() {
+
+  aplicarFiltro() {
     const value = this.form.getRawValue();
-    console.log(value)
+
+    const filtro: DomainFilterDTO = {
+      busca: value.busca || undefined
+    };
+
+    this.filtrar.emit(filtro);
+    console.log(filtro)
+    this.toastService.success('Filtros aplicados com sucesso.');
+
   }
 
   limparFiltros() {
