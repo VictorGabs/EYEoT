@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.eyeot.model.dtos.DomainFiltroDTO;
-import br.com.eyeot.model.dtos.DomainResumeDTO;
 import br.com.eyeot.model.dtos.ResponseDTO;
 import br.com.eyeot.model.dtos.UserDTO;
+import br.com.eyeot.model.dtos.domain.DomainFiltroDTO;
+import br.com.eyeot.model.dtos.domain.DomainResumeDTO;
 import br.com.eyeot.model.dtos.forms.DomainFormDTO;
 import br.com.eyeot.model.services.DomainService;
 import jakarta.validation.Valid;
@@ -34,7 +34,7 @@ public class DomainController {
         return domainService.registrarDominio(domainFormDTO, userDTO);
     }
 
-    @GetMapping ("/my/resume")
+    @GetMapping ("/my/all")
     public ResponseEntity<ResponseDTO<List<DomainResumeDTO>>> listarMeusDominios(@AuthenticationPrincipal UserDTO userDTO) {
         return domainService.listarMeusDominios(userDTO);
     }

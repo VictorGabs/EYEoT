@@ -1,0 +1,47 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 20px;
+}
+
+.header h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.header p {
+  color: #6d6d6d;
+  margin-bottom: 0;
+}
+
+.novo-dispositivo {
+  background: #004aad !important;
+  color: white !important;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+.novo-dispositivo:hover{
+  background-color: black !important;
+  color:white !important;
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .header h1 {
+    font-size: clamp(2rem, 8vw, 2.5rem);
+  }
+
+  .novo-dispositivo {
+    align-self: flex-start;
+  }
+}

@@ -39,7 +39,6 @@ export class DomainListFilterComponent {
     };
 
     this.filtrar.emit(filtro);
-    console.log(filtro)
     this.toastService.success('Filtros aplicados com sucesso.');
 
   }

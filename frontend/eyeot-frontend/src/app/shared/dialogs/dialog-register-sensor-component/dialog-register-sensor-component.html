@@ -1,0 +1,275 @@
+<h2 mat-dialog-title>
+  Novo sensor
+</h2>
+
+
+<mat-dialog-content>
+
+  <form
+    class="sensor-form"
+    [formGroup]="form">
+
+
+    <mat-form-field appearance="outline">
+
+      <mat-label>Índice</mat-label>
+
+      <input
+        matInput
+        type="number"
+        formControlName="index">
+
+      <mat-hint>
+        Identificador do sensor dentro do dispositivo.
+      </mat-hint>
+
+      @if (
+        form.controls.index.hasError('required')
+        && form.controls.index.touched
+      ) {
+
+        <mat-error>
+          Informe o índice do sensor.
+        </mat-error>
+
+      }
+
+      @if (
+        form.controls.index.hasError('min')
+        && form.controls.index.touched
+      ) {
+
+        <mat-error>
+          O índice não pode ser negativo.
+        </mat-error>
+
+      }
+
+    </mat-form-field>
+
+
+    <mat-form-field appearance="outline">
+
+      <mat-label>Dispositivo</mat-label>
+
+      <mat-select
+        formControlName="device">
+
+        @for (
+          device of devices();
+          track device.id_device
+        ) {
+
+          <mat-option
+            [value]="device.id_device">
+
+            {{ device.deviceId }}
+
+            @if (device.domainName) {
+              — {{ device.domainName }}
+            }
+
+          </mat-option>
+
+        }
+
+      </mat-select>
+
+      @if (
+        form.controls.device.hasError('required')
+        && form.controls.device.touched
+      ) {
+
+        <mat-error>
+          Selecione um dispositivo.
+        </mat-error>
+
+      }
+
+    </mat-form-field>
+
+
+    <mat-form-field
+      appearance="outline"
+      class="full-width">
+
+      <mat-label>
+        Tipo de sensor
+      </mat-label>
+
+      <mat-select
+        formControlName="sensorType"
+        (selectionChange)="
+          sensorTypeSelecionado($event.value)
+        ">
+
+        @for (
+          type of sensorTypes();
+          track type.id
+        ) {
+
+          <mat-option
+            [value]="type.id">
+
+            {{ type.description }}
+
+          </mat-option>
+
+        }
+
+      </mat-select>
+
+     @if (
+      form.controls.sensorType.hasError('required')
+      && form.controls.sensorType.touched
+    ) {
+
+        <mat-error>
+          Selecione um tipo de sensor.
+        </mat-error>
+
+      }
+
+    </mat-form-field>
+
+
+
+    @if (selectedSensorType(); as type) {
+
+      <div class="sensor-type-info">
+
+        <div class="info-header">
+
+          <mat-icon>
+            info
+          </mat-icon>
+
+          <span>
+            Informações do tipo de sensor
+          </span>
+
+        </div>
+
+
+        <div class="info-grid">
+
+          <div class="info-item">
+
+            <span class="label">
+              Grandeza
+            </span>
+
+            <span class="value">
+              {{ type.physicalQuantity }}
+            </span>
+
+          </div>
+
+
+          <div class="info-item">
+
+            <span class="label">
+              Unidade
+            </span>
+
+            <span class="value">
+              {{ type.measureUnit }}
+            </span>
+
+          </div>
+
+
+          <div class="info-item">
+
+            <span class="label">
+              Valor mínimo
+            </span>
+
+            <span class="value">
+
+              @if (type.minValue !== null) {
+                {{ type.minValue }}
+              } @else {
+                Não definido
+              }
+
+            </span>
+
+          </div>
+
+
+          <div class="info-item">
+
+            <span class="label">
+              Valor máximo
+            </span>
+
+            <span class="value">
+
+              @if (type.maxValue !== null) {
+                {{ type.maxValue }}
+              } @else {
+                Não definido
+              }
+
+            </span>
+
+          </div>
+
+
+          <div class="info-item">
+
+            <span class="label">
+              Intervalo médio
+            </span>
+
+            <span class="value">
+
+              @if (type.averageInterval !== null) {
+                {{ type.averageInterval }} s
+              } @else {
+                Não definido
+              }
+
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    }
+
+  </form>
+
+</mat-dialog-content>
+
+
+<mat-dialog-actions align="end">
+
+  <button
+    mat-button
+    type="button"
+    (click)="cancelar()">
+
+    Cancelar
+
+  </button>
+
+
+  <button
+    matButton
+    class="btn-save"
+    type="button"
+    (click)="salvar()">
+
+    <mat-icon>
+      save
+    </mat-icon>
+
+    Salvar
+
+  </button>
+
+</mat-dialog-actions>

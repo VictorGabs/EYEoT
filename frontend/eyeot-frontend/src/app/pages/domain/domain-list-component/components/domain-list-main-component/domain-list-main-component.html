@@ -69,10 +69,21 @@
             <button
               mat-icon-button
               aria-label="Visualizar domínio"
-              matTooltip="Ver domínio"
-              (click)="visualizarDominio(domain)"
+              matTooltip="Ver dispositivos do domínio"
+              [routerLink]="['/devices']"
+              [queryParams]="{
+                idDomain: domain.id_domain
+              }"
             >
               <mat-icon>visibility</mat-icon>
+            </button>
+
+            <button
+              mat-icon-button
+              aria-label="Edição de domínio"
+              matTooltip="Editar domínio"
+            >
+              <mat-icon>edit</mat-icon>
             </button>
 
           </td>

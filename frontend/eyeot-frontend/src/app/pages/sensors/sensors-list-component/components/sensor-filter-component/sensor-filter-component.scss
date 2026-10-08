@@ -1,0 +1,65 @@
+.filters{
+    display:flex;
+    gap:18px;
+    align-items:center;
+    flex-direction: row;
+}
+
+mat-expansion-panel{
+  margin: 20px !important;
+}
+.filters mat-form-field{
+    flex:1;
+    margin-top: 1rem;
+}
+
+.filter-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+}
+
+.filter-actions button {
+  min-height: 42px;
+  padding: 0 18px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.filter-actions mat-icon {
+  margin-right: 6px;
+}
+.filter-actions .btn-clear {
+  border: 1px solid #d1d5db;
+  color: #4b5563;
+  background: #fff;
+}
+
+.filter-actions .btn-clear:hover {
+  background: #f9fafb;
+}
+.filter-actions .btn-apply {
+  border: 1px solid #d1d5db;
+  color: #4b5563;
+  background: #fff;
+}
+@media(max-width:1200px){
+
+    .filters{
+        display: grid;
+        grid-template-columns:1fr;
+        gap:0;
+    }
+}
+@media (max-width: 600px) {
+
+  .filter-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .filter-actions button {
+    width: 100%;
+  }
+}

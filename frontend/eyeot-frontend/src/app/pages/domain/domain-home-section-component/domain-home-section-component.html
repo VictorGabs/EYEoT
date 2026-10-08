@@ -2,7 +2,7 @@
   <div class="domain-section-header">
     <div class="header-wrap">
       <h1 class ="title">Meus Domínios</h1>
-      <button matButton class="btn" routerLink="/domains">
+      <button mat-button class="btn" routerLink="/domains">
           <mat-icon>arrow_forward</mat-icon>
           Ver todos
       </button>
@@ -27,9 +27,18 @@
             <mat-card-content>
               <p>{{domain.description}}</p>
             </mat-card-content>
-            <mat-card-actions align="start">
-                <button mat-button>Ver domínio</button>
-            </mat-card-actions>
+            <button
+
+              mat-button
+              [routerLink]="['/devices']"
+              [queryParams]="{
+                idDomain: domain.id_domain
+              }">
+
+              <mat-icon>devices</mat-icon>
+              Ver dispositivos
+
+            </button>
         </mat-card>
       }
     </div>

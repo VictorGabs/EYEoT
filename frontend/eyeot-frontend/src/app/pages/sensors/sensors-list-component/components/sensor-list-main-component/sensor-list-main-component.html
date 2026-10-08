@@ -1,0 +1,141 @@
+<div class="table-container">
+
+  @if (carregando()) {
+
+    <div class="loading-container">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+
+  } @else if (sensors().length > 0) {
+
+    <div class="table-wrapper">
+
+      <table mat-table [dataSource]="dataSource" class="sensor-table">
+
+        <ng-container matColumnDef="index">
+          <th mat-header-cell *matHeaderCellDef>
+            Index
+          </th>
+
+          <td mat-cell *matCellDef="let sensor">
+            <span>
+              {{sensor.index}}
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="deviceId">
+          <th mat-header-cell *matHeaderCellDef>
+            Dispositivo Atrelado
+          </th>
+
+          <td mat-cell *matCellDef="let sensor">
+            <span>
+              {{sensor.deviceId}}
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef>
+            Descrição
+          </th>
+
+          <td mat-cell *matCellDef="let sensor">
+            <span class="description">
+              {{ sensor.sensorTypeDescription || 'Sem descrição' }}
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="id_sensortype">
+          <th mat-header-cell *matHeaderCellDef>
+            Tipo de sensor
+          </th>
+
+          <td mat-cell *matCellDef="let sensor">
+            {{ sensor.id_sensortype }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="physicalQuantity">
+          <th mat-header-cell *matHeaderCellDef>
+            Grandeza Física
+          </th>
+
+          <td mat-cell *matCellDef="let sensor">
+            {{ sensor.physicalQuantity }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="measureUnit">
+          <th mat-header-cell *matHeaderCellDef>
+            Unidade de Medida
+          </th>
+
+          <td mat-cell *matCellDef="let sensor">
+            {{ sensor.measureUnit }}
+          </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>
+            Ações
+          </th>
+
+          <td mat-cell *matCellDef="let sensor">
+
+            <button
+              mat-icon-button
+              aria-label="Edição de tipo de sensor"
+              matTooltip="Editar tipo de sensor"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+
+          </td>
+        </ng-container>
+
+        <tr
+          mat-header-row
+          *matHeaderRowDef="displayedColumns"
+        ></tr>
+
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns"
+        ></tr>
+
+      </table>
+
+    </div>
+
+
+    <mat-paginator
+      [length]="totalElements"
+      [pageIndex]="pageNumber"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[5, 10, 25, 50]"
+      (page)="mudouPagina($event)"
+      showFirstLastButtons
+      aria-label="Paginação dos sensores">
+    </mat-paginator>
+
+  } @else {
+
+    <div class="empty-container">
+
+      <mat-icon>developer_board</mat-icon>
+
+      <h2>Nenhum sensor encontrado</h2>
+
+      <p>
+        Não existem sensores para serem exibidos.
+      </p>
+
+    </div>
+
+  }
+
+</div>

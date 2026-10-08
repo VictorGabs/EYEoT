@@ -1,5 +1,5 @@
 export interface DeviceFormDTO{
-  idDomain: number;
+  id_domain: number;
 
   deviceId: string;
   enable: boolean;

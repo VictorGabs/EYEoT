@@ -47,7 +47,7 @@ public class Domain {
     @Column(name = "domainname", nullable = false)
     private String domainName;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
     @Builder.Default

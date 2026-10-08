@@ -14,7 +14,7 @@ export class DomainService {
 
   readonly domainAlterado = this.domainAlteradoSignal.asReadonly();
 
-  listarDominios(
+  listarMeusDominios(
       page: number,
       size: number,
       filtro?: DomainFilterDTO
@@ -40,9 +40,9 @@ export class DomainService {
       this.domainAlteradoSignal.update(valor => valor + 1);
     }
 
-    listarDominiosResumo() {
+    listarTodosMeusDominios() {
       return this.persistenceService.getRequest(
-        '/v1/domains/my/resume'
+        '/v1/domains/my/all'
       );
     }
 

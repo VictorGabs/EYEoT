@@ -61,6 +61,7 @@ public class UserService {
                     userFormDTO.email1(),
                     userFormDTO.email2(),  
                     passwordEncoder.encode(userFormDTO.password()),
+                    null,
                     null);
         
         userRepository.save(novoUsuario);

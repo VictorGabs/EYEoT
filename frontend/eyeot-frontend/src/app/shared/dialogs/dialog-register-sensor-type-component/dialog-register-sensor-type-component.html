@@ -1,0 +1,142 @@
+<h2 mat-dialog-title>
+  Novo Tipo de Sensor
+</h2>
+
+<mat-dialog-content>
+
+  <form
+    [formGroup]="form"
+    class="sensor-type-form">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Descrição</mat-label>
+
+      <input
+        matInput
+        formControlName="description"
+        placeholder="Ex.: Temperatura ambiente">
+
+      @if (form.controls.description.hasError('required')) {
+        <mat-error>
+          A descrição é obrigatória.
+        </mat-error>
+      }
+
+      @if (form.controls.description.hasError('maxlength')) {
+        <mat-error>
+          Máximo de 256 caracteres.
+        </mat-error>
+      }
+    </mat-form-field>
+
+
+    <mat-form-field appearance="outline">
+
+      <mat-label>Tipo de dado</mat-label>
+
+      <mat-select formControlName="dataType">
+
+        @for (type of dataTypes; track type.value) {
+
+          <mat-option [value]="type.value">
+            {{ type.label }}
+          </mat-option>
+
+        }
+
+      </mat-select>
+
+      @if (form.controls.dataType.hasError('required')) {
+        <mat-error>
+          O tipo de dado é obrigatório.
+        </mat-error>
+      }
+
+    </mat-form-field>
+
+
+    <mat-form-field appearance="outline">
+
+      <mat-label>Quantidade física</mat-label>
+
+      <input
+        matInput
+        formControlName="physicalQuantity"
+        placeholder="Ex.: Temperatura">
+
+    </mat-form-field>
+
+
+    <mat-form-field appearance="outline">
+
+      <mat-label>Unidade de medida</mat-label>
+
+      <input
+        matInput
+        formControlName="measureUnit"
+        placeholder="Ex.: °C">
+
+    </mat-form-field>
+
+
+    <mat-form-field appearance="outline">
+
+      <mat-label>Valor mínimo</mat-label>
+
+      <input
+        matInput
+        type="number"
+        formControlName="minValue">
+
+    </mat-form-field>
+
+
+    <mat-form-field appearance="outline">
+
+      <mat-label>Valor máximo</mat-label>
+
+      <input
+        matInput
+        type="number"
+        formControlName="maxValue">
+
+    </mat-form-field>
+
+
+    <mat-form-field appearance="outline">
+
+      <mat-label>Intervalo médio</mat-label>
+
+      <input
+        matInput
+        type="number"
+        formControlName="averageInterval">
+
+      <span matTextSuffix>s</span>
+
+    </mat-form-field>
+
+  </form>
+
+</mat-dialog-content>
+
+
+<mat-dialog-actions align="end">
+
+  <button
+    mat-button
+    type="button"
+    (click)="cancelar()">
+    Cancelar
+  </button>
+
+  <button
+    matButton
+    class="btn-save"
+    type="button"
+    (click)="salvar()">
+    <mat-icon>save</mat-icon>
+    Salvar
+  </button>
+
+</mat-dialog-actions>

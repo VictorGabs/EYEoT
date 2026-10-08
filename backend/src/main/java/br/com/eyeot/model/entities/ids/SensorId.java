@@ -4,7 +4,9 @@ import java.io.Serializable;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
 
+@Getter
 @Embeddable
 public class SensorId implements Serializable {
 

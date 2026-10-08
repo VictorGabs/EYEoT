@@ -22,9 +22,16 @@
   }
 
   .btn{
-    background: #004aad !important;
+    background-color: #004aad !important;
     color: white !important;
     flex-shrink: 0;
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+
+  .btn:hover{
+    background-color: black !important;
+    color:white !important;
   }
 
   mat-divider {

@@ -8,8 +8,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { catchError, of, tap } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogRegisterDomainHomeComponent } from './components/dialog-register-domain-home-component/dialog-register-domain-home-component';
-import { RouterLink } from '@angular/router';
+import { DialogRegisterDomainHomeComponent } from '../../../shared/dialogs/dialog-register-domain-home-component/dialog-register-domain-home-component';
+import { Router, RouterLink } from '@angular/router';
 import { DomainService } from '../../../core/services/domain-service/domain-service';
 
 
@@ -26,7 +26,7 @@ export class DomainHomeSectionComponent {
   readonly dialog = inject (MatDialog);
 
 
-  constructor(private domainService: DomainService){
+  constructor(private domainService: DomainService, private router:Router){
       effect(() => {
 
         this.domainService.domainAlterado();
@@ -41,7 +41,7 @@ export class DomainHomeSectionComponent {
   carregando = signal(true);
 
   carregarDominios(){
-     this.domainService.listarDominiosResumo()
+     this.domainService.listarTodosMeusDominios()
           .pipe(
             tap((response: any) => {
               this.domains.set(response.data);
@@ -64,6 +64,5 @@ export class DomainHomeSectionComponent {
       }
     });
   }
-
 
 }

@@ -1,0 +1,14 @@
+<app-toast-component/>
+<div class="header">
+    <div>
+        <h1>Visão geral dos seus sensores</h1>
+        <p>Painel de gestão de sensores.</p>
+    </div>
+
+    <button matButton class="btn" (click)="abrirDialogRegisterSensor()">
+        <mat-icon>add</mat-icon>
+        Novo Sensor
+    </button>
+</div>
+<app-sensor-filter-component (filtrar)="aplicarFiltro($event)"/>
+<app-sensor-list-main-component [filtro]="filtro"/>

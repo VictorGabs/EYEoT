@@ -11,10 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import br.com.eyeot.model.dtos.DomainFiltroDTO;
-import br.com.eyeot.model.dtos.DomainResumeDTO;
 import br.com.eyeot.model.dtos.ResponseDTO;
 import br.com.eyeot.model.dtos.UserDTO;
+import br.com.eyeot.model.dtos.domain.DomainFiltroDTO;
+import br.com.eyeot.model.dtos.domain.DomainResumeDTO;
 import br.com.eyeot.model.dtos.forms.DomainFormDTO;
 import br.com.eyeot.model.entities.Domain;
 import br.com.eyeot.model.repositories.DomainRepository;

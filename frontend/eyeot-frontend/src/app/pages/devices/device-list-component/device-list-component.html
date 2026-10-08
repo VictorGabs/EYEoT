@@ -1,0 +1,28 @@
+<app-toast-component></app-toast-component>
+<div class="header">
+
+  <div>
+    <h1>Visão geral dos dispositivos</h1>
+    <p>Painel de gestão dos seus dispositivos.</p>
+  </div>
+
+  <button
+    matButton
+    class="novo-dispositivo"
+    (click)="abrirDialog()">
+
+    <mat-icon>add</mat-icon>
+    Novo Dispositivo
+
+  </button>
+
+</div>
+
+<app-device-list-filter-component
+  [filtroInicial]="filtro"
+  (filtrar)="aplicarFiltro($event)">
+</app-device-list-filter-component>
+
+<app-device-list-main-component
+  [filtro]="filtro"
+/>

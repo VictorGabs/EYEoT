@@ -9,15 +9,17 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { DomainFilterDTO } from '../../../../../core/model/dtos/domain-filter.dto';
 import { DomainService } from '../../../../../core/services/domain-service/domain-service';
 import { catchError, of, tap } from 'rxjs';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-domain-list-main-component',
-  imports: [    MatTableModule,
+  imports: [MatTableModule,
     MatPaginatorModule,
     MatProgressBarModule,
     MatIconModule,
     MatButtonModule,
-    MatTooltipModule],
+    MatTooltipModule,
+    RouterModule],
   templateUrl: './domain-list-main-component.html',
   styleUrl: './domain-list-main-component.scss',
 })
@@ -68,7 +70,7 @@ export class DomainListMainComponent {
 
       this.carregando.set(true);
 
-       this.domainService.listarDominios(
+       this.domainService.listarMeusDominios(
         this.pageNumber,
         this.pageSize,
         this.filtro)

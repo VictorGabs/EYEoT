@@ -55,6 +55,10 @@ public class User {
 
     @Builder.Default
     @OneToMany(mappedBy = "user")
-    private List<Domain> domains  = new ArrayList<>();;
+    private List<Domain> domains  = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "owner")
+    private List<Device> devices = new ArrayList<>();
 
 }

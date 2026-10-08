@@ -1,9 +1,12 @@
 package br.com.eyeot.model.entities;
 
 import java.math.BigDecimal;
+import java.sql.Types;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.hibernate.annotations.JdbcTypeCode;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -46,8 +49,13 @@ public class Device {
     @JoinColumn(name = "id_domain")
     private Domain domain;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_owner", nullable = false)
+    private User owner;
+
     @Column(name = "deviceid", nullable = false, length = 8, columnDefinition = "CHAR(8)")
-    private char deviceId;
+    @JdbcTypeCode(Types.CHAR)
+    private String deviceId;
 
     @Column(name = "creationdate", nullable = false)
     private LocalDateTime creationDate;

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import br.com.eyeot.model.dtos.DomainFiltroDTO;
+import br.com.eyeot.model.dtos.domain.DomainFiltroDTO;
 import br.com.eyeot.model.entities.Domain;
 import br.com.eyeot.model.entities.User;
 import jakarta.persistence.criteria.Join;
@@ -18,9 +18,6 @@ public class DomainSpecification {
 
             List<Predicate> predicates = new ArrayList<>();
 
-            /*
-            * Busca geral
-            */
             if(idUser != null){
                 Join<Domain, User> userJoin = root.join("user");
 

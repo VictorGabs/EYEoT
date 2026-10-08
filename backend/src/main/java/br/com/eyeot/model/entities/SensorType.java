@@ -44,10 +44,10 @@ public class SensorType {
     @Column(name = "datatype", nullable = false)
     private Short dataType;
 
-    @Column(name = "minvalue")
+    @Column(name = "minvalue", columnDefinition = "NUMERIC")
     private BigDecimal minValue;
 
-    @Column(name = "maxvalue")
+    @Column(name = "maxvalue", columnDefinition = "NUMERIC")
     private BigDecimal maxValue;
 
     @Column(name = "physicalquantity", nullable = false, length = 64)

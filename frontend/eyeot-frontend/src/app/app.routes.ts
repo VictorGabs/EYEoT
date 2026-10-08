@@ -6,6 +6,9 @@ import { HomeComponent } from './pages/home/home-component';
 import { authGuard } from './core/guards/authentication-guard/auth-guard';
 import { SidenavComponent } from './shared/layout/sidenav-component/sidenav-component';
 import { DomainListComponent } from './pages/domain/domain-list-component/domain-list-component';
+import { DeviceListComponent } from './pages/devices/device-list-component/device-list-component';
+import { SensorsListComponent } from './pages/sensors/sensors-list-component/sensors-list-component';
+import { SensorTypesListComponent } from './pages/sensor-types/sensor-types-list-component/sensor-types-list-component';
 
 export const routes: Routes = [
   {
@@ -36,7 +39,20 @@ export const routes: Routes = [
       {
         path: 'domains',
         component: DomainListComponent
+      },
+      {
+        path: 'devices',
+        component: DeviceListComponent
+      },
+      {
+        path: 'sensors',
+        component: SensorsListComponent
+      },
+      {
+        path: 'sensor-types',
+        component: SensorTypesListComponent
       }
+
     ]
   }
 

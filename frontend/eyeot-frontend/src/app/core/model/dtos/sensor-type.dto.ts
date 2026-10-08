@@ -1,6 +1,6 @@
 
 export interface SensorTypeDTO {
-  id: number;
+  id?: number;
   description: string;
   dataType: number;
 
