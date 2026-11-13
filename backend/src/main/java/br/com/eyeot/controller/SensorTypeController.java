@@ -16,14 +16,17 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController 
-@RequestMapping ("v1/sensor-types")
+@RequestMapping ("/v1/sensor-types")
 @RequiredArgsConstructor 
 public class SensorTypeController {
 
@@ -52,6 +55,22 @@ public class SensorTypeController {
             filtro,
             pageable
         );
+    }
+
+    @PutMapping("/update/{idSensorType}")
+    public ResponseEntity<ResponseDTO<Void>> editar(
+            @PathVariable Integer idSensorType,
+            @Valid @RequestBody SensorTypeDTO dto) {
+
+
+        return sensorTypeService.atualizarTipoSensor(idSensorType, dto);
+    }
+
+    @DeleteMapping("/delete/{idSensorType}")
+    public ResponseEntity<ResponseDTO<Void>> excluir(
+            @PathVariable Integer idSensorType) {
+
+        return sensorTypeService.deletarTipoSensor(idSensorType);
     }
     
 }

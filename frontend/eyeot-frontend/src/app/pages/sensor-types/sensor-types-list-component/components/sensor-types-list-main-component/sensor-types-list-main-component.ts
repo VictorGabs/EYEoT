@@ -1,4 +1,5 @@
-import { Component, effect, Input, signal, SimpleChanges } from '@angular/core';
+import { SensorTypeDataTypeEnum } from './../../../../../core/enuns/sensor-type-data-type.enum';
+import { Component, effect, inject, Input, signal, SimpleChanges } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
@@ -9,6 +10,8 @@ import { SensorTypeService } from '../../../../../core/services/sensor-type-serv
 import { SensorTypeDTO } from '../../../../../core/model/dtos/sensor-type.dto';
 import { SensorTypeFilterDTO } from '../../../../../core/model/dtos/sensor-type-filter.dto';
 import { catchError, of, tap } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogUpdateSensorTypeComponent } from '../../../../../shared/dialogs/dialog-update-sensor-type-component/dialog-update-sensor-type-component';
 
 @Component({
   selector: 'app-sensor-types-list-main-component',
@@ -39,6 +42,7 @@ export class SensorTypesListMainComponent {
 
   sensorTypes = signal<SensorTypeDTO[]>([]);
 
+  readonly dialog = inject(MatDialog);
   carregando = signal(true);
 
   @Input()
@@ -111,6 +115,24 @@ export class SensorTypesListMainComponent {
 
   }
 
+
+
+    abrirDialogUpdateSensorType(sensorTypeDTO : SensorTypeDTO) {
+      const dialogRef = this.dialog.open(DialogUpdateSensorTypeComponent,
+            {
+              width: '650px',
+              maxWidth: '95vw',
+              data: {
+                sensorType: sensorTypeDTO
+              }
+            }
+          );
+      dialogRef.afterClosed().subscribe(resultado => {
+        if (resultado === true) {
+          this.sensorTypeService.notificarAlteracao();
+        }
+      });
+    }
 
 
 }

@@ -1,0 +1,320 @@
+
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.sensor-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #e6eaf0;
+  border-radius: 16px;
+  box-shadow: 0 3px 12px rgb(16 24 40 / 3%);
+
+  mat-card-content {
+    padding: 22px;
+  }
+}
+
+.sensor-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.sensor-icon {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  color: #004aad;
+  background: #edf4ff;
+  border-radius: 12px;
+
+  mat-icon {
+    font-size: 23px;
+    width: 23px;
+    height: 23px;
+  }
+}
+
+.sensor-title {
+  flex: 1;
+  min-width: 0;
+
+  h3 {
+    margin: 0 0 5px;
+    font-size: 1rem;
+    font-weight: 650;
+    overflow-wrap: anywhere;
+  }
+
+  span {
+    display: block;
+    color: #667085;
+    font-size: 0.8rem;
+    overflow-wrap: anywhere;
+  }
+}
+
+.summary-label {
+  color: #667085;
+  font-size: 0.82rem;
+}
+
+.sensor-type {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 6px 10px;
+  color: #475467;
+  background: #f2f4f7;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.latest-reading {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 24px;
+  padding: 16px;
+  background: #f8fafc;
+  border: 1px solid #edf0f4;
+  border-radius: 12px;
+}
+
+.numeric-value {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 650;
+  overflow-wrap: anywhere;
+
+  span {
+    color: #667085;
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+}
+
+.boolean-value {
+  font-size: 1.35rem;
+  font-weight: 650;
+}
+
+.boolean-true {
+  color: #16803d;
+}
+
+.boolean-false {
+  color: #b42318;
+}
+
+.gps-values,
+.accelerometer-values {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+  }
+
+  span {
+    color: #667085;
+    font-size: 0.78rem;
+  }
+
+  strong {
+    font-size: 0.95rem;
+    font-weight: 650;
+    overflow-wrap: anywhere;
+  }
+}
+
+.reading-date {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 14px;
+  color: #667085;
+  font-size: 0.8rem;
+
+  mat-icon {
+    width: 17px;
+    height: 17px;
+    font-size: 17px;
+  }
+}
+
+.chart-wrapper {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  margin-top: 20px;
+}
+
+.gps-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 20px;
+  padding: 16px;
+  color: #475467;
+  background: #f8fafc;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  line-height: 1.6;
+
+  mat-icon {
+    flex-shrink: 0;
+    color: #004aad;
+  }
+}
+
+.gps-container {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 400px;
+  margin-top: 16px;
+  overflow: hidden;
+  border-radius: 12px;
+  isolation: isolate;
+}
+
+.gps-map {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.estatisticas-sensor {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #ddd;
+
+  h3 {
+    margin-bottom: 0.75rem;
+  }
+
+  h4 {
+    margin-bottom: 0.4rem;
+  }
+
+  p {
+    margin: 0.35rem 0;
+  }
+}
+
+.sensor-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #edf0f4;
+  color: #667085;
+  font-size: 0.78rem;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  mat-icon {
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+  }
+}
+
+
+.no-reading-data {
+  margin-top: 15px;
+  padding: 12px;
+  color: #666;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.no-reading {
+  padding: 12px;
+  color: #666;
+  font-size: 0.9rem;
+  text-align: center;
+}
+//Teste
+
+.estatisticas-sensor {
+  margin-top: 20px;
+
+  h3 {
+    margin-bottom: 16px;
+  }
+}
+
+.tabela-container {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid #d0d7e2;
+  border-radius: 8px;
+}
+
+.tabela-estatisticas {
+  width: 100%;
+  min-width: 1050px;
+}
+
+.tabela-estatisticas th {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.tabela-estatisticas td {
+  white-space: nowrap;
+}
+
+mat-paginator {
+  margin-top: 8px;
+}
+
+//
+
+@media (max-width: 650px) {
+  .sensor-card mat-card-content {
+    padding: 16px;
+  }
+
+  .sensor-header {
+    flex-wrap: wrap;
+  }
+
+  .sensor-type {
+    margin-left: 56px;
+  }
+
+  .chart-wrapper {
+    height: 240px;
+  }
+
+  .gps-values,
+  .accelerometer-values {
+    gap: 8px;
+
+    strong {
+      font-size: 0.82rem;
+    }
+  }
+}

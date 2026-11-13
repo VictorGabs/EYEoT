@@ -42,7 +42,7 @@ public class Domain {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_user")
-    private User user;
+    private User owner;
 
     @Column(name = "domainname", nullable = false)
     private String domainName;

@@ -1,6 +1,7 @@
 import { Injectable, signal} from '@angular/core';
 import { PersistenceService } from '../persistence-service/persistence-service';
 import { DomainFilterDTO } from '../../model/dtos/domain-filter.dto';
+import { DomainFormDTO } from '../../model/dtos/domain-form.dto';
 
 
 @Injectable({
@@ -43,6 +44,18 @@ export class DomainService {
     listarTodosMeusDominios() {
       return this.persistenceService.getRequest(
         '/v1/domains/my/all'
+      );
+    }
+
+    atualizarDominio(domainId: number, domainData: DomainFormDTO) {
+      return this.persistenceService.putRequest(
+        `/v1/domains/update/${domainId}`,
+        domainData
+      );
+    }
+    deletarDominio(domainId: number) {
+      return this.persistenceService.deleteRequest(
+        `/v1/domains/delete/${domainId}`
       );
     }
 

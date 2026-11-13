@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogRegisterDomainHomeComponent } from '../../../shared/dialogs/dialog-register-domain-home-component/dialog-register-domain-home-component';
 import { Router, RouterLink } from '@angular/router';
 import { DomainService } from '../../../core/services/domain-service/domain-service';
+import { AuthService } from '../../../core/services/auth-service/auth-service';
 
 
 
@@ -25,14 +26,20 @@ export class DomainHomeSectionComponent {
 
   readonly dialog = inject (MatDialog);
 
+  isAdmin = signal(false);
 
-  constructor(private domainService: DomainService, private router:Router){
+
+  constructor(private domainService: DomainService, private router:Router, private authService:AuthService){
       effect(() => {
 
         this.domainService.domainAlterado();
 
         this.carregarDominios();
 
+      });
+
+      this.authService.isAdmin().subscribe(isAdmin => {
+        this.isAdmin.set(isAdmin);
       });
   }
 

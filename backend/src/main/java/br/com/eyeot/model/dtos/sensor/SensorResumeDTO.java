@@ -4,8 +4,12 @@ public record SensorResumeDTO(
     Integer id_device,
     Short index,
     String deviceId,
+    String deviceOwnerName,
+    String deviceOwnerEmail,
     Integer id_sensortype,
+    Short dataType,
     String sensorTypeDescription,
     String physicalQuantity,
-    String measureUnit
+    String measureUnit,
+    Integer summaryPeriod
 ) {}

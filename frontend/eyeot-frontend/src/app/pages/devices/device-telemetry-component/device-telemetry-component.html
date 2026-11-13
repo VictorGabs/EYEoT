@@ -1,0 +1,162 @@
+
+<section class="telemetry-page">
+  <header class="page-header">
+    <div class="page-heading">
+      <span class="eyebrow">MONITORAMENTO IOT</span>
+      <h1>Telemetrias do dispositivo</h1>
+      <p>Acompanhe o histórico e as leituras dos sensores em tempo real.</p>
+    </div>
+
+    <button
+      mat-stroked-button
+      class="back-button"
+      routerLink="/devices"
+    >
+      <mat-icon>arrow_back</mat-icon>
+      Voltar para dispositivos
+    </button>
+  </header>
+
+  <section class="filtros-periodo">
+  <h2>Período das leituras</h2>
+
+  <div class="opcoes-periodo">
+    <button
+      mat-button
+      [class.periodo-ativo]="periodoSelecionado === 'dia'"
+      (click)="selecionarPeriodo('dia')">
+      Dia
+    </button>
+
+    <button
+      mat-button
+      [class.periodo-ativo]="periodoSelecionado === 'semana'"
+      (click)="selecionarPeriodo('semana')">
+      Semana
+    </button>
+
+    <button
+      mat-button
+      [class.periodo-ativo]="periodoSelecionado === 'mes'"
+      (click)="selecionarPeriodo('mes')">
+      Mês
+    </button>
+
+    <button
+      mat-button
+      [class.periodo-ativo]="periodoSelecionado === 'ano'"
+      (click)="selecionarPeriodo('ano')">
+      Ano
+    </button>
+
+    <button
+      mat-button
+      [class.periodo-ativo]="periodoSelecionado === 'personalizado'"
+      (click)="selecionarPeriodo('personalizado')">
+      Personalizado
+    </button>
+  </div>
+
+  @if (periodoSelecionado === 'personalizado') {
+    <div class="periodo-personalizado">
+      <label>
+        Data e hora inicial
+        <input
+          type="datetime-local"
+          step="1"
+          [value]="inicioPersonalizado"
+          (change)="inicioPersonalizado = $any($event.target).value">
+      </label>
+
+      <label>
+        Data e hora final
+        <input
+          type="datetime-local"
+          step="1"
+          [value]="fimPersonalizado"
+          (change)="fimPersonalizado = $any($event.target).value">
+      </label>
+
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="aplicarPeriodoPersonalizado()">
+        Aplicar período
+      </button>
+    </div>
+  }
+
+  <p class="periodo-atual">
+    Intervalo consultado: {{ formatarHorario(inicioPeriodo) }}
+    até {{ formatarHorario(fimPeriodo) }}
+    (data final exclusiva)
+  </p>
+</section>
+
+  <div class="device-summary">
+    <div class="summary-icon">
+      <mat-icon>sensors</mat-icon>
+    </div>
+
+    <div class="summary-content">
+      <span class="summary-label">Dispositivo</span>
+      <strong>#{{ idDevice }}</strong>
+    </div>
+
+    <div class="summary-divider"></div>
+
+    <div class="summary-content">
+      <span class="summary-label">Sensores</span>
+      <strong>{{ sensores().length }}</strong>
+    </div>
+
+    <div class="summary-divider"></div>
+
+    <div class="summary-content">
+      <span class="summary-label">Leituras recebidas</span>
+      <strong>{{ this.telemetryDataService.pontos().length }}</strong>
+    </div>
+  </div>
+
+ @if (carregando) {
+  <div class="status-panel">
+    <mat-spinner diameter="42"></mat-spinner>
+    <h2>Carregando telemetrias</h2>
+    <p>Estamos consultando o histórico do dispositivo.</p>
+  </div>
+} @else if (erro) {
+  <div class="status-panel error-panel">
+    <mat-icon>error_outline</mat-icon>
+    <h2>Não foi possível carregar os dados</h2>
+    <p>{{ erro }}</p>
+
+    <button mat-stroked-button (click)="tentarNovamente()">
+      <mat-icon>refresh</mat-icon>
+      Tentar novamente
+    </button>
+  </div>
+} @else if (sensores().length === 0) {
+  <div class="status-panel empty-panel">
+    <mat-icon>sensors_off</mat-icon>
+    <h2>Nenhum sensor cadastrado</h2>
+    <p>Este dispositivo ainda não possui sensores registrados.</p>
+  </div>
+} @else {
+  <div class="section-heading">
+    <div>
+      <h2>Sensores do dispositivo</h2>
+      <p>Visualização das leituras agrupadas por sensor.</p>
+    </div>
+
+    <span class="reading-count">
+      {{ telemetryDataService.pontos().length }} leituras
+    </span>
+  </div>
+
+  <div class="charts-container">
+    @for (sensor of sensores(); track sensor.sensorIndex) {
+      <app-sensor-telemetry [sensor]="sensor" [inicioPeriodo]="inicioPeriodo" [fimPeriodo]="fimPeriodo"/>
+    }
+  </div>
+}
+</section>

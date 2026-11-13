@@ -50,9 +50,28 @@ export class SensorService {
       );
     }
 
+    atualizarSensor(dto: SensorDTO, idDevice: number, index: number) {
+      return this.persistenceService.putRequest(
+        `/v1/sensors/update/${idDevice}/${index}`,
+        dto
+      );
+    }
+
+    deletarSensor(idDevice: number, index: number) {
+      return this.persistenceService.deleteRequest(
+        `/v1/sensors/delete/${idDevice}/${index}`
+      );
+    }
+
     notificarAlteracao(): void {
       this.sensorAlteradoSignal.update(
         valor => valor + 1
+      );
+    }
+
+    listarSensoresDoDispositivo(idDevice: number) {
+      return this.persistenceService.getRequest(
+        `/v1/sensors/device/${idDevice}`
       );
     }
 }

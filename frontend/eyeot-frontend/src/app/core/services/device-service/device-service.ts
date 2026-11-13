@@ -60,4 +60,10 @@ export class DeviceService {
       valor => valor + 1
     );
   }
+
+  excluirDispositivo(idDevice: number) {
+    return this.persistenceService.deleteRequest(
+      `/v1/devices/delete/${idDevice}`
+    );
+  }
 }

@@ -1,8 +1,10 @@
+import { inject } from '@angular/core';
 export enum SensorTypeDataTypeEnum {
   REAL = 1,
   BOOLEAN = 2,
   GPS = 3,
-  ACCELEROMETER = 4
+  ACCELEROMETER = 4,
+  INTEGER = 5
 }
 
 export const SENSOR_DATA_TYPE_OPTIONS = [
@@ -21,5 +23,10 @@ export const SENSOR_DATA_TYPE_OPTIONS = [
   {
     value: SensorTypeDataTypeEnum.ACCELEROMETER,
     label: 'Acelerômetro'
+  },
+  {
+    value:SensorTypeDataTypeEnum.INTEGER,
+    label: 'Inteiro'
+
   }
 ];

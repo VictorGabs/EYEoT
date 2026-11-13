@@ -29,9 +29,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 export class DialogRegisterDeviceComponent {
 
 
-  constructor(
-    private domainService: DomainService
-  ) {
+  constructor() {
     this.carregarDominios();
   }
 
@@ -48,14 +46,6 @@ export class DialogRegisterDeviceComponent {
   domains = signal<DomainResumeDTO[]>([]);
 
   form = this.fb.nonNullable.group({
-
-    deviceId: [
-      '',
-      [
-        Validators.required,
-        Validators.maxLength(8)
-      ]
-    ],
 
     id_domain: [
       0
@@ -115,11 +105,12 @@ export class DialogRegisterDeviceComponent {
 
         next: (response: any) => {
 
-          this.toastService.success(
-            response.descricao
-          );
+          const deviceId = response.data;
 
-          this.dialogRef.close(true);
+          this.dialogRef.close({
+            success: true,
+            deviceId
+          });
 
         },
 

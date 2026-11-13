@@ -36,4 +36,21 @@ body {
   margin: 0;
   height: 100%;
 }
+
+/* Ajustes para renderização do Leaflet */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden !important;
+}
+
+.leaflet-container img {
+  max-width: none !important;
+  max-height: none !important;
+}
+
+.leaflet-tile {
+  max-width: none !important;
+  max-height: none !important;
+}
 /* You can add global styles to this file, and also import other style files */

@@ -1,0 +1,48 @@
+<div class="success-dialog">
+
+  <div class="success-icon">
+    <mat-icon>check</mat-icon>
+  </div>
+
+  <h2 mat-dialog-title>Dispositivo criado com sucesso!</h2>
+
+  <mat-dialog-content>
+    <p class="description">
+      Seu dispositivo foi cadastrado e já está disponível no EyEoT.
+    </p>
+
+    <div class="device-id-box">
+      <span class="device-id-label">ID do dispositivo</span>
+
+      <div class="device-id-value">
+        <span>{{ data.deviceId }}</span>
+
+        <button
+          mat-icon-button
+          type="button"
+          aria-label="Copiar ID do dispositivo"
+          matTooltip="Copiar ID"
+          (click)="copiarDeviceId()"
+        >
+          <mat-icon>content_copy</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <p class="hint">
+      Guarde esse identificador para configurar ou localizar seu dispositivo.
+    </p>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button
+      matButton
+      class="btn-confirm"
+      type="button"
+      (click)="fechar()"
+    >
+      Entendi
+    </button>
+  </mat-dialog-actions>
+
+</div>

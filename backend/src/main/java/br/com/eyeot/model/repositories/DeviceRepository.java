@@ -34,8 +34,36 @@ public interface DeviceRepository extends  JpaRepository<Device, Integer>, JpaSp
         SELECT d
         FROM Device d
         JOIN d.domain dom
-        JOIN dom.user u
+        JOIN dom.owner u
         WHERE u.id_user = :idUser
     """)
     List<Device> findMyDevices(Integer idUser);
+
+
+    @Query(value = "SELECT EXISTS(SELECT 1 FROM eyeot_devices WHERE deviceId = :deviceId)", nativeQuery = true)
+    boolean existsByDeviceId(String deviceId);
+
+    @Query("""
+        SELECT d
+        FROM Device d
+        WHERE d.domain.id_domain = :idDomain
+        """)
+    List<Device> findAllByDomain_Id_domain(
+        @Param("idDomain") Integer idDomain
+    );
+
+    Optional<Device> findByDeviceId(String deviceId);
+
+
+    @Query("""
+        SELECT d
+        FROM Device d
+        LEFT JOIN FETCH d.owner
+        WHERE d.deviceId = :deviceId
+    """)
+    Optional<Device> findByDeviceIdWithOwner(
+        @Param("deviceId") String deviceId
+    );
+    
+
 }

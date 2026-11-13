@@ -1,3 +1,3 @@
 export interface SensorFilterDTO {
-  busca?: string;
+  busca?: string
 }

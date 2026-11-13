@@ -1,0 +1,321 @@
+
+<mat-card class="sensor-card">
+  <mat-card-content>
+    <div class="sensor-header">
+      <div class="sensor-icon">
+        @switch (sensor().dataType) {
+          @case (1) {
+            <mat-icon>show_chart</mat-icon>
+          }
+          @case (2) {
+            <mat-icon>toggle_on</mat-icon>
+          }
+          @case (3) {
+            <mat-icon>location_on</mat-icon>
+          }
+          @case (4) {
+            <mat-icon>screen_rotation</mat-icon>
+          }
+          @case (5) {
+            <mat-icon>numbers</mat-icon>
+          }
+          @default {
+            <mat-icon>sensors</mat-icon>
+          }
+        }
+      </div>
+
+      <div class="sensor-title">
+        <h3>
+          {{ sensor().physicalQuantity || sensor().sensorType }}
+        </h3>
+        <span>
+          Sensor {{ sensor().sensorIndex }} · {{ sensor().sensorType }}
+        </span>
+      </div>
+
+      <span class="sensor-type">
+        @switch (sensor().dataType) {
+          @case (1) { Real }
+          @case (2) { Booleano }
+          @case (3) { GPS }
+          @case (4) { Acelerômetro }
+          @case (5) { Inteiro }
+          @default { Outro }
+        }
+      </span>
+    </div>
+
+    @let leitura = sensor().ultimaLeitura;
+
+    <div class="latest-reading">
+      <span class="summary-label">Última leitura</span>
+
+      @if (leitura; as leituraAtual) {
+        @switch (sensor().dataType) {
+          @case (2) {
+            <strong
+              class="boolean-value"
+              [class.boolean-true]="leituraAtual.booleanValue === true"
+              [class.boolean-false]="leituraAtual.booleanValue === false"
+            >
+              {{ formatarBooleano(leituraAtual.booleanValue) }}
+            </strong>
+          }
+
+          @case (3) {
+            <div class="gps-values">
+              <div>
+                <span>Latitude</span>
+                <strong>{{ formatarCoordenada(leituraAtual.value, '°') }}</strong>
+              </div>
+              <div>
+                <span>Longitude</span>
+                <strong>{{ formatarCoordenada(leituraAtual.value2, '°') }}</strong>
+              </div>
+              <div>
+                <span>Altitude</span>
+                <strong>{{ formatarCoordenada(leituraAtual.value3, 'm') }}</strong>
+              </div>
+            </div>
+          }
+
+          @case (4) {
+            <div class="accelerometer-values">
+              <div><span>Eixo X</span><strong>{{ leituraAtual.value ?? '—' }}</strong></div>
+              <div><span>Eixo Y</span><strong>{{ leituraAtual.value2 ?? '—' }}</strong></div>
+              <div><span>Eixo Z</span><strong>{{ leituraAtual.value3 ?? '—' }}</strong></div>
+            </div>
+          }
+
+          @default {
+            <strong class="numeric-value">
+              {{ leituraAtual.value ?? '—' }}
+              @if (sensor().measureUnit) {
+                <span>{{ sensor().measureUnit }}</span>
+              }
+            </strong>
+          }
+        }
+
+        <div class="reading-date">
+          <mat-icon>schedule</mat-icon>
+          <span>{{ formatarHorario(leituraAtual.timestamp) }}</span>
+        </div>
+      } @else {
+        <div class="no-reading">
+          Nenhuma leitura registrada para este sensor
+        </div>
+      }
+    </div>
+
+    <!-- Gráfico ou mapa do período -->
+    @if (sensor().pontos.length > 0) {
+
+      @if (sensor().dataType !== 3) {
+        <div class="chart-wrapper">
+          <canvas
+            #sensorCanvas
+            [attr.aria-label]="'Gráfico do sensor ' + sensor().sensorIndex"
+            role="img"
+          ></canvas>
+        </div>
+      } @else {
+        <div class="gps-container">
+          <div #gpsMap class="gps-map"></div>
+        </div>
+      }
+
+      <!-- Estatísticas do período: BOOLEAN e ACCELEROMETER -->
+      @if (sensor().dataType === 2 || sensor().dataType === 4) {
+        <section class="estatisticas-sensor">
+          <h3>Estatísticas do período</h3>
+
+          @if (sensor().dataType === 2) {
+            @let stats = calcularEstatisticasBooleanas(
+              sensor().pontos.map(p => p.booleanValue)
+            );
+
+            <p>Leituras válidas: {{ stats.quantidade }}</p>
+            <p>Verdadeiros: {{ stats.verdadeiros }}</p>
+            <p>Falsos: {{ stats.falsos }}</p>
+            <p>
+              Percentual verdadeiro:
+              {{ stats.percentualVerdadeiro == null
+                ? '—'
+                : formatarEstatistica(stats.percentualVerdadeiro) + '%' }}
+            </p>
+          } @else {
+            @let statsX = calcularEstatisticasNumericas(
+              sensor().pontos.map(p => p.value)
+            );
+            @let statsY = calcularEstatisticasNumericas(
+              sensor().pontos.map(p => p.value2)
+            );
+            @let statsZ = calcularEstatisticasNumericas(
+              sensor().pontos.map(p => p.value3)
+            );
+
+            <h4>Eixo X</h4>
+            <p>Média: {{ formatarEstatistica(statsX.media) }}</p>
+            <p>Mediana: {{ formatarEstatistica(statsX.mediana) }}</p>
+            <p>Moda: {{ formatarEstatistica(statsX.moda) }}</p>
+            <p>Desvio padrão amostral: {{ formatarEstatistica(statsX.desvioPadrao) }}</p>
+
+            <h4>Eixo Y</h4>
+            <p>Média: {{ formatarEstatistica(statsY.media) }}</p>
+            <p>Mediana: {{ formatarEstatistica(statsY.mediana) }}</p>
+            <p>Moda: {{ formatarEstatistica(statsY.moda) }}</p>
+            <p>Desvio padrão amostral: {{ formatarEstatistica(statsY.desvioPadrao) }}</p>
+
+            <h4>Eixo Z</h4>
+            <p>Média: {{ formatarEstatistica(statsZ.media) }}</p>
+            <p>Mediana: {{ formatarEstatistica(statsZ.mediana) }}</p>
+            <p>Moda: {{ formatarEstatistica(statsZ.moda) }}</p>
+            <p>Desvio padrão amostral: {{ formatarEstatistica(statsZ.desvioPadrao) }}</p>
+          }
+        </section>
+      }
+
+      <footer class="sensor-footer">
+        <span>
+          <mat-icon>database</mat-icon>
+          {{ sensor().pontos.length }}
+          {{ sensor().pontos.length === 1 ? 'leitura' : 'leituras' }}
+        </span>
+
+        @if (sensor().measureUnit) {
+          <span>
+            Unidade: {{ sensor().measureUnit }}
+          </span>
+        }
+      </footer>
+
+    } @else {
+      <div class="no-reading-data">
+        <mat-icon>query_stats</mat-icon>
+        <p>Nenhuma telemetria encontrada neste período.</p>
+      </div>
+    }
+
+    @if (
+      (sensor().dataType === 1 || sensor().dataType === 5) &&
+      estatisticas().length > 0
+    ) {
+      <section class="grafico-medias">
+        <h3>Média por intervalo</h3>
+
+        <div class="chart-wrapper">
+          <canvas
+            #statisticsCanvas
+            [attr.aria-label]="'Gráfico de médias do sensor ' + sensor().sensorIndex"
+            role="img"
+          ></canvas>
+        </div>
+      </section>
+    }
+
+    @if (sensor().dataType === 1 || sensor().dataType === 5) {
+      <section class="estatisticas-sensor">
+        <h3>Estatísticas por período</h3>
+
+        @if (carregandoTabela()) {
+          <p>Carregando estatísticas...</p>
+        } @else if (estatisticasTabela().length > 0) {
+
+          <div class="tabela-container">
+            <table
+              mat-table
+              [dataSource]="estatisticasTabela()"
+              class="tabela-estatisticas"
+            >
+
+              <ng-container matColumnDef="intervalo">
+                <th mat-header-cell *matHeaderCellDef>Intervalo</th>
+                <td mat-cell *matCellDef="let stats">
+                  {{ formatarHorario(stats.intervalStart) }}
+                  até
+                  {{ formatarHorario(stats.intervalEnd) }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="leituras">
+                <th mat-header-cell *matHeaderCellDef>Leituras</th>
+                <td mat-cell *matCellDef="let stats">
+                  {{ stats.totalCount }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="minimo">
+                <th mat-header-cell *matHeaderCellDef>Mínimo</th>
+                <td mat-cell *matCellDef="let stats">
+                  {{ formatarEstatistica(stats.minValue) }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="maximo">
+                <th mat-header-cell *matHeaderCellDef>Máximo</th>
+                <td mat-cell *matCellDef="let stats">
+                  {{ formatarEstatistica(stats.maxValue) }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="amplitude">
+                <th mat-header-cell *matHeaderCellDef>Amplitude</th>
+                <td mat-cell *matCellDef="let stats">
+                  {{ formatarEstatistica(stats.amplitudeValue) }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="soma">
+                <th mat-header-cell *matHeaderCellDef>Soma</th>
+                <td mat-cell *matCellDef="let stats">
+                  {{ formatarEstatistica(stats.sumValue) }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="media">
+                <th mat-header-cell *matHeaderCellDef>Média</th>
+                <td mat-cell *matCellDef="let stats">
+                  {{ formatarEstatistica(stats.averageValue) }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="mediana">
+                <th mat-header-cell *matHeaderCellDef>Mediana</th>
+                <td mat-cell *matCellDef="let stats">
+                  {{ formatarEstatistica(stats.medianValue) }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="desvioPadrao">
+                <th mat-header-cell *matHeaderCellDef>Desvio padrão</th>
+                <td mat-cell *matCellDef="let stats">
+                  {{ formatarEstatistica(stats.standardDeviation) }}
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="colunasTabela"></tr>
+
+              <tr mat-row *matRowDef="let row; columns: colunasTabela"></tr>
+
+            </table>
+          </div>
+
+          <mat-paginator
+            [length]="totalElements()"
+            [pageIndex]="paginaAtual()"
+            [pageSize]="tamanhoPagina()"
+            [pageSizeOptions]="[10, 25, 50]"
+            [showFirstLastButtons]="true"
+            (page)="alterarPagina($event)"
+            aria-label="Paginação das estatísticas do sensor"
+          />
+
+        } @else {
+          <p>Nenhuma estatística disponível para o período selecionado.</p>
+        }
+      </section>
+    }
+  </mat-card-content>
+</mat-card>

@@ -3,6 +3,9 @@ export interface DeviceResumeDTO {
   deviceId: string;
   id_domain: number;
   domainName: string;
+  id_owner:number;
+  ownerName: string;
+  ownerEmail: string;
   creationDate: string;
   enable: boolean;
   latitude: number | null;

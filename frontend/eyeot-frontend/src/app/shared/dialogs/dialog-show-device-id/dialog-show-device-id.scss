@@ -1,0 +1,122 @@
+:host {
+  display: block;
+}
+
+.success-dialog {
+  padding: 12px 8px 4px;
+  text-align: center;
+}
+
+.success-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 16px;
+
+  border-radius: 50%;
+  background-color: #e5f7ec;
+  color: #198754;
+
+  mat-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 36px;
+    line-height: 36px;
+  }
+}
+
+h2[mat-dialog-title] {
+  margin-bottom: 8px;
+  color: #202938;
+  font-size: 21px;
+  font-weight: 600;
+  text-align: center;
+}
+
+mat-dialog-content {
+  padding: 8px 16px;
+}
+
+.description {
+  margin: 0 0 24px;
+  color: #606b7a;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.device-id-box {
+  padding: 16px;
+  border: 1px solid #cbdaf0;
+  border-radius: 12px;
+  background-color: #f3f7fd;
+  text-align: left;
+}
+
+.device-id-label {
+  display: block;
+  margin-bottom: 10px;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.device-id-value {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  span {
+    overflow-wrap: anywhere;
+    color: #004aad;
+    font-family: monospace;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 2px;
+  }
+
+  button {
+    flex-shrink: 0;
+    color: #004aad;
+  }
+}
+
+.hint {
+  margin: 14px 0 4px;
+  color: #788395;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+mat-dialog-actions {
+  padding: 12px 16px 16px;
+  gap: 8px;
+}
+
+.btn-confirm {
+  min-width: 110px;
+  border-radius: 8px;
+  background-color: #004aad !important;
+  color: white !important;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #00347a !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .device-id-value span {
+    font-size: 18px;
+    letter-spacing: 1px;
+  }
+
+  h2[mat-dialog-title] {
+    font-size: 19px;
+  }
+}

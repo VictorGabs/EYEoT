@@ -3,8 +3,11 @@ package br.com.eyeot.model.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.eyeot.enuns.RolesEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -38,6 +41,9 @@ public class User {
     @Column(name = "id_user")
     private Integer id_user;
 
+    @Enumerated(EnumType.STRING)
+    private RolesEnum papel;
+
     @Column(name = "name", nullable = false)
     private String name;
 
@@ -54,7 +60,7 @@ public class User {
     private String password;
 
     @Builder.Default
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "owner")
     private List<Domain> domains  = new ArrayList<>();
 
     @Builder.Default

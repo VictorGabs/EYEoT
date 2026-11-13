@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import br.com.eyeot.enuns.RolesEnum;
 import br.com.eyeot.model.entities.Device;
 import br.com.eyeot.model.entities.Sensor;
 import br.com.eyeot.model.entities.SensorType;
@@ -15,7 +16,8 @@ public class SensorSpecification {
 
     public static Specification<Sensor> comFiltro(
             String busca,
-            Integer idUser
+            Integer idUser,
+            RolesEnum roleEnum
     ) {
 
         return (root, query, cb) -> {
@@ -28,12 +30,15 @@ public class SensorSpecification {
             Join<Sensor, SensorType> sensorTypeJoin =
                     root.join("sensorType");
 
-            predicates.add(
-                cb.equal(
-                    deviceJoin.get("owner").get("id_user"),
-                    idUser
-                )
-            );
+            if(idUser != null && roleEnum != null && roleEnum.name().equals("ROLE_USER")) {
+                 predicates.add(
+                    cb.equal(
+                        deviceJoin.get("owner").get("id_user"),
+                        idUser
+                    )
+                );
+            }
+           
 
             if (busca != null && !busca.isEmpty()) {
 

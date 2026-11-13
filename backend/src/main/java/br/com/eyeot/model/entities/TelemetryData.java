@@ -1,6 +1,7 @@
 package br.com.eyeot.model.entities;
 
 import java.net.InetAddress;
+import java.sql.Types;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,8 @@ public class TelemetryData {
     private Long id;
 
     @Column(name = "deviceid", nullable = false, length = 8, columnDefinition = "CHAR(8)")
-    private char deviceId;
+    @JdbcTypeCode(Types.CHAR)
+    private String deviceId;
 
     @Column(name = "timestamp")
     private LocalDateTime timestamp;

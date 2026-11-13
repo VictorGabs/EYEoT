@@ -12,7 +12,8 @@ public enum SensorTypeDataTypeEnum {
     REAL((short) 1, "Real"),
     BOOLEAN((short) 2, "Booleano"),
     GPS((short) 3, "GPS"),
-    ACCELEROMETER((short) 4, "Acelerômetro");
+    ACCELEROMETER((short) 4, "Acelerômetro"),
+    INTEGER((short)5,"Inteiro");
 
     private final Short code;
     private final String description;

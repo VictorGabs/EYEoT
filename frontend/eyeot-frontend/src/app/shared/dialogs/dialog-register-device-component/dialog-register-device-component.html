@@ -8,29 +8,6 @@
     class="device-form"
     [formGroup]="form">
 
-    <mat-form-field appearance="outline">
-      <mat-label>Identificador</mat-label>
-
-      <input
-        matInput
-        formControlName="deviceId"
-        maxlength="8"
-        placeholder="Ex.: ESP32A01">
-
-      <mat-hint align="end">
-        {{ form.controls.deviceId.value?.length || 0 }}/8
-      </mat-hint>
-
-      @if (
-        form.controls.deviceId.hasError('required')
-      ) {
-        <mat-error>
-          Informe o identificador.
-        </mat-error>
-      }
-
-    </mat-form-field>
-
 
     <mat-form-field appearance="outline">
 

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 
 @RestController
-@RequestMapping("v1/tab")
+@RequestMapping("/v1/tab")
 @RequiredArgsConstructor 
 public class TabController {
 

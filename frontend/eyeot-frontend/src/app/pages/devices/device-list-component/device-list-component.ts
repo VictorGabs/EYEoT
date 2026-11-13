@@ -9,6 +9,8 @@ import { DeviceListFilterComponent } from './components/device-list-filter-compo
 import { DeviceListMainComponent } from './components/device-list-main-component/device-list-main-component';
 import { DialogRegisterDeviceComponent } from '../../../shared/dialogs/dialog-register-device-component/dialog-register-device-component';
 import { ActivatedRoute } from '@angular/router';
+import { DialogShowDeviceId } from '../../../shared/dialogs/dialog-show-device-id/dialog-show-device-id';
+import { DeviceResumeDTO } from '../../../core/model/dtos/device-resume.dto';
 
 @Component({
   selector: 'app-device-list-component',
@@ -63,14 +65,24 @@ export class DeviceListComponent {
         }
       );
 
-    dialogRef.afterClosed()
-      .subscribe(resultado => {
+    dialogRef.afterClosed().subscribe(resultado => {
+      if (resultado?.success) {
 
-        if (resultado === true) {
-          this.deviceService
-            .notificarAlteracao();
+        this.deviceService.notificarAlteracao();
+
+        this.dialog.open(DialogShowDeviceId, {
+            width: '460px',
+            maxWidth: '95vw',
+            disableClose: false,
+            data: {
+              deviceId: resultado.deviceId
+            }
+          });
+
         }
-
-      });
+    });
   }
+
+
+
 }

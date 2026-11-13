@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DomainComponent } from './domain-component';
+import { DialogShowDeviceId } from './dialog-show-device-id';
 
-describe('DomainComponent', () => {
-  let component: DomainComponent;
-  let fixture: ComponentFixture<DomainComponent>;
+describe('DialogShowDeviceId', () => {
+  let component: DialogShowDeviceId;
+  let fixture: ComponentFixture<DialogShowDeviceId>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DomainComponent],
+      imports: [DialogShowDeviceId],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DomainComponent);
+    fixture = TestBed.createComponent(DialogShowDeviceId);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

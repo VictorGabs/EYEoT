@@ -1,4 +1,4 @@
-import { Component, effect, Input, signal, SimpleChanges } from '@angular/core';
+import { Component, effect, inject, Input, signal, SimpleChanges } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
@@ -9,6 +9,10 @@ import { SensorTypeDTO } from '../../../../../core/model/dtos/sensor-type.dto';
 import { SensorTypeFilterDTO } from '../../../../../core/model/dtos/sensor-type-filter.dto';
 import { catchError, of, tap } from 'rxjs';
 import { SensorService } from '../../../../../core/services/sensor-service/sensor-service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogUpdateSensorComponent } from '../../../../../shared/dialogs/dialog-update-sensor-component/dialog-update-sensor-component';
+import { SensorDTO } from '../../../../../core/model/dtos/sensor.dto';
+import { ToastService } from '../../../../../core/services/toast-service/toast-service';
 
 @Component({
   selector: 'app-sensor-list-main-component',
@@ -23,7 +27,7 @@ import { SensorService } from '../../../../../core/services/sensor-service/senso
 })
 export class SensorListMainComponent {
 
-  constructor(private sensorService:SensorService){
+  constructor(private sensorService:SensorService, private toastService:ToastService){
     effect(() => {
 
       this.sensorService.sensorAlterado();
@@ -41,6 +45,8 @@ export class SensorListMainComponent {
 
   carregando = signal(true);
 
+  readonly dialog = inject(MatDialog)
+
   @Input()
   filtro: SensorTypeFilterDTO = {};
 
@@ -49,6 +55,8 @@ export class SensorListMainComponent {
   displayedColumns: string[] = [
     'index',
     'deviceId',
+    'deviceOwnerName',
+    'deviceOwnerEmail',
     'id_sensortype',
     'description',
     'physicalQuantity',
@@ -100,6 +108,23 @@ export class SensorListMainComponent {
           .subscribe();
   }
 
+  abrirDialogUpdateSensor(sensorDTO : SensorDTO) {
+    const dialogRef = this.dialog.open(DialogUpdateSensorComponent,
+          {
+            width: '650px',
+            maxWidth: '95vw',
+            data: {
+              sensor: sensorDTO
+            }
+          }
+        );
+    dialogRef.afterClosed().subscribe(resultado => {
+      if (resultado === true) {
+        this.sensorService.notificarAlteracao();
+      }
+    });
+  }
+
 
   mudouPagina(event: PageEvent) {
 
@@ -110,6 +135,22 @@ export class SensorListMainComponent {
 
   }
 
+
+  excluirSensor(sensorDTO : SensorDTO) {
+    this.sensorService.deletarSensor(sensorDTO.id_device, sensorDTO.index)
+      .pipe(
+        tap((response: any) => {
+          this.toastService.success(response.descricao || 'Sensor excluído com sucesso.');
+          this.sensorService.notificarAlteracao();
+        }),
+        catchError((error: any) => {
+          this.toastService.error(error.descricao || 'Erro ao excluir sensor.');
+          console.error('Erro ao excluir sensor:', error);
+          return of(error);
+        })
+      )
+      .subscribe();
+  }
 
 
 }

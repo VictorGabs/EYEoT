@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import br.com.eyeot.enuns.RolesEnum;
 import br.com.eyeot.model.dtos.domain.DomainFiltroDTO;
 import br.com.eyeot.model.entities.Domain;
 import br.com.eyeot.model.entities.User;
@@ -13,13 +14,13 @@ import jakarta.persistence.criteria.Predicate;
 
 public class DomainSpecification {
 
-    public static Specification<Domain> comFiltro(DomainFiltroDTO filtro, Integer idUser) {
+    public static Specification<Domain> comFiltro(DomainFiltroDTO filtro, Integer idUser, RolesEnum roleEnum) {
         return (root, query, cb) -> {
 
             List<Predicate> predicates = new ArrayList<>();
 
-            if(idUser != null){
-                Join<Domain, User> userJoin = root.join("user");
+            if(idUser != null && roleEnum != null && roleEnum.name().equals("ROLE_USER")) {
+                Join<Domain, User> userJoin = root.join("owner");
 
                 predicates.add(
                     cb.equal(

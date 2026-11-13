@@ -9,6 +9,7 @@ import { DomainListComponent } from './pages/domain/domain-list-component/domain
 import { DeviceListComponent } from './pages/devices/device-list-component/device-list-component';
 import { SensorsListComponent } from './pages/sensors/sensors-list-component/sensors-list-component';
 import { SensorTypesListComponent } from './pages/sensor-types/sensor-types-list-component/sensor-types-list-component';
+import { DeviceTelemetryComponent } from './pages/devices/device-telemetry-component/device-telemetry-component';
 
 export const routes: Routes = [
   {
@@ -51,6 +52,11 @@ export const routes: Routes = [
       {
         path: 'sensor-types',
         component: SensorTypesListComponent
+      },
+      {
+        path: 'devices/:idDevice/telemetry',
+        component: DeviceTelemetryComponent,
+        canActivate: [authGuard]
       }
 
     ]

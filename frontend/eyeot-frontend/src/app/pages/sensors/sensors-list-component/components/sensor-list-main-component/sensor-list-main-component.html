@@ -36,6 +36,30 @@
           </td>
         </ng-container>
 
+        <ng-container matColumnDef="deviceOwnerName">
+          <th mat-header-cell *matHeaderCellDef>
+            Dono do dispositivo atrelado
+          </th>
+
+          <td mat-cell *matCellDef="let sensor">
+            <span>
+              {{sensor.deviceOwnerName}}
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="deviceOwnerEmail">
+          <th mat-header-cell *matHeaderCellDef>
+            Email
+          </th>
+
+          <td mat-cell *matCellDef="let sensor">
+            <span>
+              {{sensor.deviceOwnerEmail}}
+            </span>
+          </td>
+        </ng-container>
+
         <ng-container matColumnDef="description">
           <th mat-header-cell *matHeaderCellDef>
             Descrição
@@ -88,10 +112,20 @@
 
             <button
               mat-icon-button
-              aria-label="Edição de tipo de sensor"
-              matTooltip="Editar tipo de sensor"
+              aria-label="Edição de sensor"
+              matTooltip="Editar sensor"
+              (click)="abrirDialogUpdateSensor(sensor)"
             >
               <mat-icon>edit</mat-icon>
+            </button>
+
+             <button
+              mat-icon-button
+              aria-label="Exclusão de sensor"
+              matTooltip="Excluir sensor"
+              (click)="excluirSensor(sensor)"
+            >
+              <mat-icon>delete_forever</mat-icon>
             </button>
 
           </td>

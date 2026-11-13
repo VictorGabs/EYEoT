@@ -135,6 +135,15 @@ export class DeviceListFilterComponent {
 
     };
 
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        idDomain: null
+      },
+      queryParamsHandling: 'merge'
+    });
+
+
     this.filtrar.emit(filtro);
 
     this.toastService.success(

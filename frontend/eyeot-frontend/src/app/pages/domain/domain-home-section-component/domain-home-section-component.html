@@ -1,7 +1,15 @@
 <div class="domain-section">
   <div class="domain-section-header">
     <div class="header-wrap">
-      <h1 class ="title">Meus Domínios</h1>
+      <div class="header">
+        @if(isAdmin()){
+          <h1 class ="title">Domínios</h1>
+        } @else{
+          <h1 class ="title">Meus Domínios</h1>
+        }
+        <p>Esta sessão trás apenas 6 domínios.</p>
+      </div>
+
       <button mat-button class="btn" routerLink="/domains">
           <mat-icon>arrow_forward</mat-icon>
           Ver todos

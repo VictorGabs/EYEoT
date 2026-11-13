@@ -1,5 +1,7 @@
 package br.com.eyeot.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -8,13 +10,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.eyeot.model.dtos.LoginRequestDTO;
 import br.com.eyeot.model.dtos.ResponseDTO;
+import br.com.eyeot.model.dtos.UserResumeDTO;
 import br.com.eyeot.model.dtos.forms.UserFormDTO;
 import br.com.eyeot.model.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 @RestController
-@RequestMapping("v1/users")
+@RequestMapping("/v1/users")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -29,5 +34,11 @@ public class UserController {
     public ResponseEntity<ResponseDTO<Void>> registrarUsuario(@Valid @RequestBody UserFormDTO usuarioFormDTO) {
         return userService.registrarUsuario(usuarioFormDTO);
     }
+
+    @GetMapping("/all/resume")
+    public ResponseEntity<ResponseDTO<List<UserResumeDTO>>> listarUsuariosResumidos() {
+        return userService.listarUsuariosResumidos();
+    }
+    
 
 }

@@ -12,8 +12,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import br.com.eyeot.model.dtos.UserDTO;
 import br.com.eyeot.model.entities.User;
 import br.com.eyeot.model.repositories.UserRepository;
-import br.com.eyeot.security.TokenService;
-
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,7 +28,19 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
+         if (request.getRequestURI().equals("/ws")) {
+            System.out.println("Requisição WebSocket passou pelo filtro JWT");
+        }
+
         var token = tokenService.recoverToken(request);
+
+        if (request.getRequestURI().equals("/ws")) {
+            System.out.println(
+                "JWT encontrado: " + (token != null)
+            );
+        }
+        
         if (token != null) {
             var email = tokenService.validarToken(token);
 
@@ -41,16 +51,24 @@ public class SecurityFilter extends OncePerRequestFilter {
                 
                     UserDTO userDTO = new UserDTO(
                         user.getId_user(),
+                        user.getPapel(),
                         user.getName(),
                         user.getPhone(),
                         user.getEmail1(),
                         user.getEmail2());
-                    var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_COMMON"));
+                    var authorities = Collections.singletonList(new SimpleGrantedAuthority(user.getPapel().toString()));
                     var authentication = new UsernamePasswordAuthenticationToken(userDTO, null, authorities);
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             }
         }
+
+        System.out.println(
+            "Método: " + request.getMethod()
+            + " | URI: " + request.getRequestURI()
+            + " | Autenticado: "
+            + (SecurityContextHolder.getContext().getAuthentication() != null)
+        );
        
         filterChain.doFilter(request, response);
     }

@@ -6,9 +6,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,7 +26,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController 
-@RequestMapping ("v1/domains")
+@RequestMapping ("/v1/domains")
 @RequiredArgsConstructor 
 public class DomainController {
 
@@ -39,9 +42,25 @@ public class DomainController {
         return domainService.listarMeusDominios(userDTO);
     }
 
+     @GetMapping ("/resume")
+    public ResponseEntity<ResponseDTO<List<DomainResumeDTO>>> listarMeusDominiosResumo(@AuthenticationPrincipal UserDTO userDTO) {
+        return domainService.listarMeusDominios(userDTO);
+    }
+
+
     @GetMapping ("/my")
     public ResponseEntity<ResponseDTO<List<DomainResumeDTO>>> listarMeusDominiosPaginado(@ModelAttribute DomainFiltroDTO filtro, @PageableDefault(size=10) Pageable pageable, @AuthenticationPrincipal UserDTO userDTO) {
         return domainService.listarMeusDominiosPaginado(filtro,userDTO,pageable);
+    }
+
+    @PutMapping("/update/{idDomain}")
+    public ResponseEntity<ResponseDTO<Void>> editar(@PathVariable Integer idDomain, @Valid @RequestBody DomainFormDTO dto, @AuthenticationPrincipal UserDTO userDTO) {
+        return domainService.atualizarDominio(idDomain, dto, userDTO);
+    }
+
+    @DeleteMapping ("/delete/{idDomain}")
+    public ResponseEntity<ResponseDTO<Void>> excluir(@PathVariable Integer idDomain, @AuthenticationPrincipal UserDTO userDTO) {
+        return domainService.deletarDominio(idDomain, userDTO);
     }
 
 }

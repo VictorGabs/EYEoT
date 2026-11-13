@@ -10,6 +10,9 @@ import { DomainFilterDTO } from '../../../../../core/model/dtos/domain-filter.dt
 import { DomainService } from '../../../../../core/services/domain-service/domain-service';
 import { catchError, of, tap } from 'rxjs';
 import { RouterModule } from '@angular/router';
+import { DialogUpdateDomainComponent } from '../../../../../shared/dialogs/dialog-update-domain-component/dialog-update-domain-component';
+import { MatDialog } from '@angular/material/dialog';
+import { ToastService } from '../../../../../core/services/toast-service/toast-service';
 
 @Component({
   selector: 'app-domain-list-main-component',
@@ -25,7 +28,7 @@ import { RouterModule } from '@angular/router';
 })
 export class DomainListMainComponent {
 
-  constructor(private domainService:DomainService){
+  constructor(private domainService:DomainService, private dialogUpdateDomain: MatDialog, private toastService:ToastService){
     effect(() => {
 
       this.domainService.domainAlterado();
@@ -51,6 +54,7 @@ export class DomainListMainComponent {
   displayedColumns: string[] = [
     'domainName',
     'ownerName',
+    'ownerEmail',
     'numDevices',
     'description',
     'actions'
@@ -96,9 +100,6 @@ export class DomainListMainComponent {
             .subscribe();
     }
 
-  visualizarDominio(domain: DomainResumeDTO): void {
-    console.log('Visualizar domínio:', domain);
-  }
 
   mudouPagina(event: PageEvent) {
 
@@ -109,6 +110,38 @@ export class DomainListMainComponent {
 
   }
 
+  abrirDialogUpdateDomain(domainResumeDTO: DomainResumeDTO) {
+    const dialogRef = this.dialogUpdateDomain.open(DialogUpdateDomainComponent,
+          {
+            width: '650px',
+            maxWidth: '95vw',
+            data: {
+              domain: domainResumeDTO
+            }
+          }
+        );
+    dialogRef.afterClosed().subscribe(resultado => {
+      if (resultado === true) {
+        this.domainService.notificarAlteracao();
+      }
+    });
+  }
+
+  deletarDomain(domainId: number) {
+    this.domainService.deletarDominio(domainId)
+      .pipe(
+        tap((response: any) => {
+            this.toastService.success(response.descricao ?? 'Domínio deletado com sucesso.');
+            this.domainService.notificarAlteracao();
+        }),
+        catchError((data: any) => {
+
+          this.toastService.error(data.descricao ?? 'Erro ao deletar domínio.');
+          return of(data);
+        })
+      )
+      .subscribe();
+  }
 
 
 }

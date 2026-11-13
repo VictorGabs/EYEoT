@@ -8,6 +8,8 @@ import { DomainListMainComponent } from './components/domain-list-main-component
 import { ToastComponent } from '../../../shared/toast-component/toast-component';
 import { DomainFilterDTO } from '../../../core/model/dtos/domain-filter.dto';
 import { DomainService } from '../../../core/services/domain-service/domain-service';
+import { DomainResumeDTO } from '../../../core/model/dtos/domain-resume.dto';
+import { DialogUpdateDomainComponent } from '../../../shared/dialogs/dialog-update-domain-component/dialog-update-domain-component';
 
 @Component({
   selector: 'app-domain-list-component',
@@ -43,6 +45,9 @@ export class DomainListComponent {
       }
     });
   }
+
+
+
 
 
 }

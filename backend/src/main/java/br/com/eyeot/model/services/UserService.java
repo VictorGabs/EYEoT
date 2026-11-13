@@ -1,7 +1,11 @@
 package br.com.eyeot.model.services;
 
+import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -9,8 +13,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import br.com.eyeot.enuns.RolesEnum;
 import br.com.eyeot.model.dtos.LoginRequestDTO;
 import br.com.eyeot.model.dtos.ResponseDTO;
+import br.com.eyeot.model.dtos.UserDTO;
+import br.com.eyeot.model.dtos.UserResumeDTO;
+import br.com.eyeot.model.dtos.domain.DomainFiltroDTO;
 import br.com.eyeot.model.dtos.forms.UserFormDTO;
 import br.com.eyeot.model.entities.User;
 import br.com.eyeot.model.repositories.UserRepository;
@@ -55,7 +63,8 @@ public class UserService {
             return ResponseEntity.badRequest().body(ResponseDTO.<Void>builder().status(HttpStatus.BAD_REQUEST.toString()).descricao("Usuário já cadastrado!").data(null).build());
         }
 
-        User novoUsuario = new User(null, 
+        User novoUsuario = new User(null,
+                    RolesEnum.ROLE_USER, 
                     userFormDTO.name(),
                     userFormDTO.phone(), 
                     userFormDTO.email1(),
@@ -71,4 +80,53 @@ public class UserService {
                 .status(HttpStatus.OK.toString())
                 .descricao("Usuário registrado com sucesso!").build()); 
     }
+
+    public ResponseEntity<ResponseDTO<List<UserResumeDTO>>> listarUsuariosResumidos(){
+        try{
+            List<User> entities = userRepository.findAll();
+            List<UserResumeDTO> dtos = entities.stream().map((user) -> 
+                new UserResumeDTO(user.getId_user(), user.getName())
+            ).toList();
+
+            return ResponseEntity.ok().body(ResponseDTO.<List<UserResumeDTO>>builder()
+                .status(HttpStatus.OK.toString())
+                .descricao("Listagem de Usuarios com seus dados resumidos.")
+                .data(dtos).build());
+        } catch (Exception e){
+            return ResponseEntity.internalServerError().body(ResponseDTO.<List<UserResumeDTO>>builder()
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.toString())
+                .descricao("Erro ao listar usuários.")
+                .data(null).build());
+        }
+    }
+
+    // public ResponseEntity<ResponseDTO<List<UserDTO>>> listarTodosUsuariosPaginado(UserFiltroDTO domainFiltroDTO, UserDTO userDTO, Pageable pageable){
+    //     try{
+    //         Sort sort = Sort.by(Sort.Order.asc("name"));
+
+    //         Pageable pageableOrdenado = PageRequest.of(
+    //             pageable.getPageNumber(),
+    //             pageable.getPageSize(),
+    //             sort
+    //         );
+    //         List<User> entities = userRepository.findAll();
+    //         List<UserDTO> dtos = entities.stream().map((user) -> 
+    //             new UserDTO(user.getId_user(),
+    //                         user.getPapel(), 
+    //                         user.getName(), 
+    //                         user.getPhone(), 
+    //                         user.getEmail1(),
+    //                         user.getEmail2())).toList();
+
+    //         return ResponseEntity.ok().body(ResponseDTO.<List<UserDTO>>builder()
+    //             .status(HttpStatus.OK.toString())
+    //             .descricao("Listagem de Usuarios com seus dados resumidos.")
+    //             .data(dtos).build());
+    //     } catch (Exception e){
+    //         return ResponseEntity.internalServerError().body(ResponseDTO.<List<UserDTO>>builder()
+    //             .status(HttpStatus.INTERNAL_SERVER_ERROR.toString())
+    //             .descricao("Erro ao listar usuários.")
+    //             .data(null).build());
+    //     }
+    // }
 }

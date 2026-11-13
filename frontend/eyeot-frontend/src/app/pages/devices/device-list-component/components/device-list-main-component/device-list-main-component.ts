@@ -1,6 +1,7 @@
 import {
   Component,
   effect,
+  inject,
   Input,
   signal,
   SimpleChanges
@@ -30,6 +31,9 @@ import { DeviceResumeDTO } from '../../../../../core/model/dtos/device-resume.dt
 import { DatePipe } from '@angular/common';
 import { DialogRegisterSensorComponent } from '../../../../../shared/dialogs/dialog-register-sensor-component/dialog-register-sensor-component';
 import { MatDialog } from '@angular/material/dialog';
+import { DialogUpdateDeviceComponent } from '../../../../../shared/dialogs/dialog-update-device-component/dialog-update-device-component';
+import { Router } from '@angular/router';
+import { ToastService } from '../../../../../core/services/toast-service/toast-service';
 
 @Component({
   selector: 'app-device-list-main-component',
@@ -49,6 +53,7 @@ export class DeviceListMainComponent {
 
   constructor(private deviceService: DeviceService,
     private dialogAdicionarSensor: MatDialog,
+    private toastService: ToastService
   ) {
 
     effect(() => {
@@ -59,6 +64,11 @@ export class DeviceListMainComponent {
 
     });
   }
+
+  readonly dialog = inject(MatDialog);
+
+
+  private readonly router = inject(Router);
 
   devices = signal<DeviceResumeDTO[]>([]);
   carregando = signal(true);
@@ -78,6 +88,10 @@ export class DeviceListMainComponent {
     'deviceId',
 
     'domain',
+
+    'ownerName',
+
+    'ownerEmail',
 
     'numSensors',
 
@@ -178,61 +192,67 @@ export class DeviceListMainComponent {
 
   }
 
-  alterar(device: DeviceResumeDTO): void {
 
-    console.log(
-      'Alterar dispositivo:',
-      device
-    );
+  abrirDialogUpdateDevice(deviceResumeDTO: DeviceResumeDTO) {
+    const dialogRef = this.dialog.open(DialogUpdateDeviceComponent, {
+      width: '650px',
+      maxWidth: '95vw',
+      data: {
+        device: deviceResumeDTO
+      }
+    });
 
-    /*
-     * Vamos abrir o dialog aqui posteriormente:
-     *
-     * const dialogRef = this.dialog.open(
-     *   DialogEditDeviceComponent,
-     *   {
-     *     width: '650px',
-     *     maxWidth: '95vw',
-     *     data: { device }
-     *   }
-     * );
-     *
-     * dialogRef.afterClosed().subscribe(resultado => {
-     *
-     *   if (resultado === true) {
-     *     this.deviceService.notificarAlteracao();
-     *   }
-     *
-     * });
-     */
-
+    dialogRef.afterClosed().subscribe(resultado => {
+      if (resultado === true) {
+        this.deviceService.notificarAlteracao();
+      }
+    });
   }
 
   adicionarSensor(device: DeviceResumeDTO): void {
 
-  const dialogRef = this.dialogAdicionarSensor.open(
-    DialogRegisterSensorComponent,
-    {
-      width: '650px',
-      maxWidth: '95vw',
+    const dialogRef = this.dialogAdicionarSensor.open(
+      DialogRegisterSensorComponent,
+      {
+        width: '650px',
+        maxWidth: '95vw',
 
-      data: {
-        idDevice: device.id_device
+        data: {
+          idDevice: device.id_device
+        }
       }
-    }
-  );
+    );
 
-  dialogRef.afterClosed()
-    .subscribe(resultado => {
+    dialogRef.afterClosed()
+      .subscribe(resultado => {
 
-      if (resultado === true) {
+        if (resultado === true) {
 
-        this.deviceService
-          .notificarAlteracao();
-      }
+          this.deviceService
+            .notificarAlteracao();
+        }
 
-    });
+      });
 
-}
+  }
 
+  visualizarDispositivo(idDevice: number): void {
+    this.router.navigate(['/devices', idDevice, 'telemetry']);
+  }
+
+  excluirDispositivo(idDevice: number): void {
+
+    this.deviceService.excluirDispositivo(idDevice)
+      .pipe(
+        tap((response: any) => {
+          this.toastService.success(response.descricao || 'Dispositivo excluído com sucesso.');
+          this.deviceService.notificarAlteracao();
+        }),
+        catchError((error: any) => {
+          this.toastService.error(error.descricao || 'Erro ao excluir dispositivo.');
+          return of(error);
+        })
+      )
+      .subscribe();
+  }
 }
