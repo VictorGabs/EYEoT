@@ -112,6 +112,14 @@
 
             <button
               mat-icon-button
+              matTooltip="Visualizar telemetrias"
+              (click)="visualizarDispositivo(sensor.id_device)"
+            >
+              <mat-icon>visibility</mat-icon>
+          </button>
+
+            <button
+              mat-icon-button
               aria-label="Edição de sensor"
               matTooltip="Editar sensor"
               (click)="abrirDialogUpdateSensor(sensor)"

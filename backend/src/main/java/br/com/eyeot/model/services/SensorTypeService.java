@@ -49,6 +49,8 @@ public class SensorTypeService {
                 .physicalQuantity(dto.getPhysicalQuantity())
                 .measureUnit(dto.getMeasureUnit())
                 .averageInterval(dto.getAverageInterval())
+                .retentionPeriod(dto.getRetentionPeriod())
+                .summaryPeriod(dto.getSummaryPeriod())
                 .build();
 
             sensorTypeRepository.save(sensorType);
@@ -107,6 +109,8 @@ public class SensorTypeService {
                                 sensorType.getPhysicalQuantity(),
                                 sensorType.getMeasureUnit(),
                                 sensorType.getAverageInterval(),
+                                sensorType.getRetentionPeriod(),
+                                sensorType.getSummaryPeriod(),
                                 sensorType.getSensors().size()
                             )
                         )
@@ -180,6 +184,8 @@ public class SensorTypeService {
                                 sensorType.getPhysicalQuantity(),
                                 sensorType.getMeasureUnit(),
                                 sensorType.getAverageInterval(),
+                                sensorType.getRetentionPeriod(),
+                                sensorType.getSummaryPeriod(),
                                 sensorType.getSensors().size()
                             )
                         )
@@ -285,6 +291,8 @@ public class SensorTypeService {
             sensorType.setPhysicalQuantity(dto.getPhysicalQuantity());
             sensorType.setMeasureUnit(dto.getMeasureUnit());
             sensorType.setAverageInterval(dto.getAverageInterval());
+            sensorType.setRetentionPeriod(dto.getRetentionPeriod());
+            sensorType.setSummaryPeriod(dto.getSummaryPeriod());
 
             sensorTypeRepository.save(sensorType);
 

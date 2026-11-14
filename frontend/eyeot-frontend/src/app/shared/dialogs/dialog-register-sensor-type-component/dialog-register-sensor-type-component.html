@@ -116,6 +116,54 @@
 
     </mat-form-field>
 
+    <mat-form-field appearance="outline">
+      <mat-label>Período de retenção</mat-label>
+
+      <input
+        matInput
+        type="number"
+        min="1"
+        step="1"
+        formControlName="retentionPeriod"
+        placeholder="Ex.: 30">
+
+      <span matTextSuffix>dias</span>
+
+      <mat-hint>
+        Deixe vazio para manter as telemetrias indefinidamente.
+      </mat-hint>
+
+      @if (form.controls.retentionPeriod.hasError('min')) {
+        <mat-error>
+          O período de retenção deve ser de pelo menos 1 dia.
+        </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Período de resumo</mat-label>
+
+      <mat-select formControlName="summaryPeriod">
+
+        @for (period of summaryPeriods; track period.value) {
+          <mat-option [value]="period.value">
+            {{ period.label }}
+          </mat-option>
+        }
+
+      </mat-select>
+
+      <mat-hint>
+        Disponível somente para sensores REAL e INTEGER.
+      </mat-hint>
+
+      @if (form.controls.summaryPeriod.hasError('required')) {
+        <mat-error>
+          O período de resumo é obrigatório para sensores REAL e INTEGER.
+        </mat-error>
+      }
+    </mat-form-field>
+
   </form>
 
 </mat-dialog-content>

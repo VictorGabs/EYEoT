@@ -22,4 +22,6 @@ public class SensorTypeDTO {
     private String measureUnit;
 
     private Integer averageInterval;
+    private Integer retentionPeriod;
+    private Integer summaryPeriod;
 }

@@ -39,7 +39,10 @@ public class TabService {
             listTab.add(TabDTO.builder().uuid(UUID.randomUUID()).routerLink("/domains").icon("domain").span("Domínios").build());
             listTab.add(TabDTO.builder().uuid(UUID.randomUUID()).routerLink("/devices").icon("devices_other").span("Dispositivos").build());
             listTab.add(TabDTO.builder().uuid(UUID.randomUUID()).routerLink("/sensors").icon("developer_board").span("Sensores").build());
-            listTab.add(TabDTO.builder().uuid(UUID.randomUUID()).routerLink("/sensor-types").icon("device_hub").span("Tipos de Sensores").build());
+            if (usuario.get().getPapel().equals("ROLE_ADMIN")) {
+                listTab.add(TabDTO.builder().uuid(UUID.randomUUID()).routerLink("/sensor-types").icon("device_hub").span("Tipos de Sensores").build());
+                listTab.add(TabDTO.builder().uuid(UUID.randomUUID()).routerLink("/interno/usuarios").icon("people").span("Usuários").build());
+            }
             
             return ResponseEntity.ok().body(ResponseDTO.<List<TabDTO>>builder().descricao("Lista de tabs").data(listTab).status(HttpStatus.OK.toString()).build()); 
         }catch(Exception e){

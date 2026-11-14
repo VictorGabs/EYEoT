@@ -11,4 +11,7 @@ export interface SensorTypeDTO {
   measureUnit: string;
 
   averageInterval: number | null;
+
+  retentionPeriod: number | null;
+  summaryPeriod: number | null;
 }

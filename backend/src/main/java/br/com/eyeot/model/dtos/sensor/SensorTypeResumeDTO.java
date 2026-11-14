@@ -11,5 +11,7 @@ public record SensorTypeResumeDTO(
     String physicalQuantity,
     String measureUnit,
     Integer averageInterval,
+    Integer retentionPeriod,
+    Integer summaryPeriod,
     Integer numSensors
 ) {}

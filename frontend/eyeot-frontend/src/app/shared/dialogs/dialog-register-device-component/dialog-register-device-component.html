@@ -8,7 +8,6 @@
     class="device-form"
     [formGroup]="form">
 
-
     <mat-form-field appearance="outline">
 
       <mat-label>Domínio</mat-label>
@@ -33,40 +32,79 @@
 
     </mat-form-field>
 
-
     <mat-form-field appearance="outline">
-
       <mat-label>Latitude</mat-label>
 
       <input
         matInput
         type="number"
+        step="0.000001"
         formControlName="latitude">
 
+      <mat-hint>Entre -90 e 90, até 6 casas decimais.</mat-hint>
+
+      @if (form.controls.latitude.hasError('min') ||
+          form.controls.latitude.hasError('max')) {
+        <mat-error>
+          A latitude deve estar entre -90 e 90.
+        </mat-error>
+      }
+
+      @if (form.controls.latitude.hasError('pattern')) {
+        <mat-error>
+          Informe uma latitude com até 6 casas decimais.
+        </mat-error>
+      }
     </mat-form-field>
 
-
     <mat-form-field appearance="outline">
-
       <mat-label>Longitude</mat-label>
 
       <input
         matInput
         type="number"
+        step="0.000001"
         formControlName="longitude">
 
+      <mat-hint>Entre -180 e 180, até 6 casas decimais.</mat-hint>
+
+      @if (form.controls.longitude.hasError('min') ||
+          form.controls.longitude.hasError('max')) {
+        <mat-error>
+          A longitude deve estar entre -180 e 180.
+        </mat-error>
+      }
+
+      @if (form.controls.longitude.hasError('pattern')) {
+        <mat-error>
+          Informe uma longitude com até 6 casas decimais.
+        </mat-error>
+      }
     </mat-form-field>
 
-
     <mat-form-field appearance="outline">
-
       <mat-label>Altitude</mat-label>
 
       <input
         matInput
         type="number"
+        step="0.01"
         formControlName="altitude">
 
+      <mat-hint>Entre -9999,99 e 9999,99, até 2 casas decimais.</mat-hint>
+
+      @if (form.controls.altitude.hasError('min') ||
+          form.controls.altitude.hasError('max')) {
+        <mat-error>
+          A altitude deve estar entre -9999,99 e 9999,99.
+        </mat-error>
+      }
+
+      @if (form.controls.altitude.hasError('pattern')) {
+        <mat-error>
+          Informe uma altitude com até 2 casas decimais.
+        </mat-error>
+      }
     </mat-form-field>
 
 

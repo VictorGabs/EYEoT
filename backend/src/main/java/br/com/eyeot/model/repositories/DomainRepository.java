@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
-import br.com.eyeot.model.entities.Device;
 import br.com.eyeot.model.entities.Domain;
 
 import java.util.List;

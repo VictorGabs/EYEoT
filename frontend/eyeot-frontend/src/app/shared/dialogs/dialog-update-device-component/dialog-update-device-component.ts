@@ -47,9 +47,32 @@ export class DialogUpdateDeviceComponent {
   readonly form = this.fb.group({
     id_domain: [null as number | null, Validators.required],
     enable: [true],
-    latitude: [null as number | null],
-    longitude: [null as number | null],
-    altitude: [null as number | null]
+    latitude: [
+      null as number | null,
+      [
+        Validators.min(-90),
+        Validators.max(90),
+        Validators.pattern(/^-?\d{1,2}(\.\d{1,6})?$/)
+      ]
+    ],
+
+    longitude: [
+      null as number | null,
+      [
+        Validators.min(-180),
+        Validators.max(180),
+        Validators.pattern(/^-?\d{1,3}(\.\d{1,6})?$/)
+      ]
+    ],
+
+    altitude: [
+      null as number | null,
+      [
+        Validators.min(-9999.99),
+        Validators.max(9999.99),
+        Validators.pattern(/^-?\d{1,4}(\.\d{1,2})?$/)
+      ]
+    ]
   });
 
   ngOnInit(): void {

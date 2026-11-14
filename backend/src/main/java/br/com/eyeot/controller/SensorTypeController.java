@@ -16,6 +16,7 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -33,6 +34,7 @@ public class SensorTypeController {
     private final SensorTypeService sensorTypeService;
 
     @PostMapping("/register")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<ResponseDTO<Void>> registrarSensorType(
             @Valid @RequestBody SensorTypeDTO sensorTypeFormDTO
     ) {
@@ -58,6 +60,7 @@ public class SensorTypeController {
     }
 
     @PutMapping("/update/{idSensorType}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<ResponseDTO<Void>> editar(
             @PathVariable Integer idSensorType,
             @Valid @RequestBody SensorTypeDTO dto) {
@@ -67,6 +70,7 @@ public class SensorTypeController {
     }
 
     @DeleteMapping("/delete/{idSensorType}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<ResponseDTO<Void>> excluir(
             @PathVariable Integer idSensorType) {
 

@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SensorTypeDTO } from '../../../core/model/dtos/sensor-type.dto';
 import { ToastService } from '../../../core/services/toast-service/toast-service';
 import { PersistenceService } from '../../../core/services/persistence-service/persistence-service';
@@ -30,7 +31,7 @@ interface EditSensorTypeDialogData {
 })
 export class DialogUpdateSensorTypeComponent {
 
-   private fb = inject(FormBuilder);
+  private fb = inject(FormBuilder);
 
   private dialogRef =
     inject(MatDialogRef<DialogUpdateSensorTypeComponent>);
@@ -41,11 +42,20 @@ export class DialogUpdateSensorTypeComponent {
   private toastService =
     inject(ToastService);
 
+  private destroyRef = inject(DestroyRef);
+
   readonly dataTypes = SENSOR_DATA_TYPE_OPTIONS;
 
   readonly data = inject<EditSensorTypeDialogData>(MAT_DIALOG_DATA);
 
   private sensorType = this.data.sensorType;
+
+  readonly summaryPeriods = [
+    { value: 30, label: '30 minutos' },
+    { value: 60, label: '1 hora' },
+    { value: 720, label: '12 horas' },
+    { value: 1440, label: '24 horas' }
+  ];
 
   form = this.fb.group({
 
@@ -90,11 +100,37 @@ export class DialogUpdateSensorTypeComponent {
 
     averageInterval: [
       null as number | null
+    ],
+
+    retentionPeriod: [
+      null as number | null,
+      [
+        Validators.min(1),
+        Validators.pattern(/^\d+$/)
+      ]
+    ],
+
+    summaryPeriod: [
+      {
+        value: null as number | null,
+        disabled: true
+      },
+      [
+        Validators.required
+      ]
     ]
+
   });
 
-  ngOnInit(): void {
+  constructor() {
+    this.form.controls.dataType.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(dataType => {
+        this.atualizarCamposPorTipo(dataType);
+      });
+  }
 
+  ngOnInit(): void {
 
     this.form.patchValue({
       description: this.sensorType.description,
@@ -103,10 +139,52 @@ export class DialogUpdateSensorTypeComponent {
       maxValue: this.sensorType.maxValue,
       physicalQuantity: this.sensorType.physicalQuantity,
       measureUnit: this.sensorType.measureUnit,
-      averageInterval: this.sensorType.averageInterval
+      averageInterval: this.sensorType.averageInterval,
+      retentionPeriod: this.sensorType.retentionPeriod,
+      summaryPeriod: this.sensorType.summaryPeriod
     });
+
+    this.atualizarCamposPorTipo(this.sensorType.dataType);
+
   }
 
+  private atualizarCamposPorTipo(
+    dataType: SensorTypeDataTypeEnum | null
+  ): void {
+    const minValue = this.form.controls.minValue;
+    const maxValue = this.form.controls.maxValue;
+    const summaryPeriod = this.form.controls.summaryPeriod;
+
+    if (dataType === 1 || dataType === 5) {
+      summaryPeriod.enable();
+    } else {
+      summaryPeriod.setValue(null);
+      summaryPeriod.disable();
+    }
+
+    if (dataType === 2) {
+      minValue.setValue(0);
+      maxValue.setValue(1);
+
+      minValue.disable();
+      maxValue.disable();
+
+      return;
+    }
+
+    if (dataType === 3) {
+      minValue.setValue(null);
+      maxValue.setValue(null);
+
+      minValue.disable();
+      maxValue.disable();
+
+      return;
+    }
+
+    minValue.enable();
+    maxValue.enable();
+  }
   salvar(): void {
 
     if (this.form.invalid) {
@@ -128,7 +206,9 @@ export class DialogUpdateSensorTypeComponent {
       maxValue: value.maxValue,
       physicalQuantity: value.physicalQuantity!,
       measureUnit: value.measureUnit!,
-      averageInterval: value.averageInterval
+      averageInterval: value.averageInterval,
+      retentionPeriod: value.retentionPeriod,
+      summaryPeriod: value.summaryPeriod
     };
 
     this.persistenceService
@@ -147,13 +227,13 @@ export class DialogUpdateSensorTypeComponent {
         error: (error: any) => {
 
           console.error(
-            'Erro ao cadastrar tipo de sensor:',
+            'Erro ao atualizar tipo de sensor:',
             error
           );
 
           this.toastService.error(
             error?.error?.descricao ??
-            'Erro ao cadastrar tipo de sensor.'
+            'Erro ao atualizar tipo de sensor.'
           );
         }
 
@@ -163,4 +243,5 @@ export class DialogUpdateSensorTypeComponent {
   cancelar(): void {
     this.dialogRef.close(false);
   }
+
 }

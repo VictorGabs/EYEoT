@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -10,6 +10,7 @@ import { SensorTypeDTO } from '../../../core/model/dtos/sensor-type.dto';
 import { ToastService } from '../../../core/services/toast-service/toast-service';
 import { PersistenceService } from '../../../core/services/persistence-service/persistence-service';
 import { MatIcon } from '@angular/material/icon';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SENSOR_DATA_TYPE_OPTIONS, SensorTypeDataTypeEnum } from '../../../core/enuns/sensor-type-data-type.enum';
 
 @Component({
@@ -37,7 +38,16 @@ export class DialogRegisterSensorTypeComponent {
   private toastService =
     inject(ToastService);
 
+  private destroyRef = inject(DestroyRef);
+
   readonly dataTypes = SENSOR_DATA_TYPE_OPTIONS;
+
+  readonly summaryPeriods = [
+    { value: 30, label: '30 minutos' },
+    { value: 60, label: '1 hora' },
+    { value: 720, label: '12 horas' },
+    { value: 1440, label: '24 horas' }
+  ];
 
   form = this.fb.group({
 
@@ -82,8 +92,73 @@ export class DialogRegisterSensorTypeComponent {
 
     averageInterval: [
       null as number | null
+    ],
+
+    retentionPeriod: [
+      null as number | null,
+      [
+        Validators.min(1),
+        Validators.pattern(/^\d+$/)
+      ]
+    ],
+    summaryPeriod: [
+      {
+        value: null as number | null,
+        disabled: true
+      },
+      [
+        Validators.required
+      ]
     ]
+
   });
+
+  constructor() {
+    this.form.controls.dataType.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(dataType => {
+        this.atualizarCamposPorTipo(dataType);
+      });
+  }
+
+  private atualizarCamposPorTipo(
+    dataType: SensorTypeDataTypeEnum | null
+  ): void {
+    const minValue = this.form.controls.minValue;
+    const maxValue = this.form.controls.maxValue;
+    const summaryPeriod = this.form.controls.summaryPeriod;
+
+    if (dataType === 1 || dataType === 5) {
+      summaryPeriod.enable();
+    } else {
+      summaryPeriod.setValue(null);
+      summaryPeriod.disable();
+    }
+
+    if (dataType === 2) {
+      minValue.setValue(0);
+      maxValue.setValue(1);
+
+      minValue.disable();
+      maxValue.disable();
+
+      return;
+    }
+
+    if (dataType === 3) {
+      minValue.setValue(null);
+      maxValue.setValue(null);
+
+      minValue.disable();
+      maxValue.disable();
+
+      return;
+    }
+
+    // Demais tipos: campos disponíveis.
+    minValue.enable();
+    maxValue.enable();
+  }
 
   salvar(): void {
 
@@ -106,7 +181,9 @@ export class DialogRegisterSensorTypeComponent {
       maxValue: value.maxValue,
       physicalQuantity: value.physicalQuantity!,
       measureUnit: value.measureUnit!,
-      averageInterval: value.averageInterval
+      averageInterval: value.averageInterval,
+      retentionPeriod: value.retentionPeriod,
+      summaryPeriod: value.summaryPeriod
     };
 
     this.persistenceService
@@ -141,5 +218,7 @@ export class DialogRegisterSensorTypeComponent {
   cancelar(): void {
     this.dialogRef.close(false);
   }
+
+
 
 }

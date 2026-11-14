@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogUpdateSensorComponent } from '../../../../../shared/dialogs/dialog-update-sensor-component/dialog-update-sensor-component';
 import { SensorDTO } from '../../../../../core/model/dtos/sensor.dto';
 import { ToastService } from '../../../../../core/services/toast-service/toast-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sensor-list-main-component',
@@ -46,6 +47,8 @@ export class SensorListMainComponent {
   carregando = signal(true);
 
   readonly dialog = inject(MatDialog)
+
+  private readonly router = inject(Router);
 
   @Input()
   filtro: SensorTypeFilterDTO = {};
@@ -124,6 +127,11 @@ export class SensorListMainComponent {
       }
     });
   }
+
+  visualizarDispositivo(idDevice: number): void {
+    this.router.navigate(['/devices', idDevice, 'telemetry']);
+  }
+
 
 
   mudouPagina(event: PageEvent) {
