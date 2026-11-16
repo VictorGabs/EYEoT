@@ -32,19 +32,14 @@ public class TelemetryNotificationService {
                 var owner = device.getOwner();
 
                 if (owner == null) {
-                    System.out.println("Dispositivo sem proprietário.");
                     return;
                 }
-
-                System.out.println("Proprietário da telemetria: " + owner.getEmail1());
 
                 messagingTemplate.convertAndSendToUser(
                     owner.getEmail1(),
                     "/queue/telemetry/changed",
                     event
                 );
-
-                System.out.println("Notificação enviada para: " + owner.getEmail1());
 
                 this.diagnosticarUsuarios();
             });

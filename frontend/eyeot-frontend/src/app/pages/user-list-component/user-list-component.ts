@@ -18,6 +18,9 @@ import { ToastService } from '../../core/services/toast-service/toast-service';
 import { UserService } from '../../core/services/user-service/user-service';
 import { DialogConfirmarAlteracaoRoleComponent } from './components/dialog-confirmar-alteracao-role-component/dialog-confirmar-alteracao-role-component';
 import { ToastComponent } from '../../shared/toast-component/toast-component';
+import { DialogConfirmarDelecaoUsuario } from './components/dialog-confirmar-delecao-usuario/dialog-confirmar-delecao-usuario';
+import { UserResumeDTO } from '../../core/model/dtos/user-resume.dto';
+import { DialogResetPasswordComponent } from './components/dialog-reset-password-component/dialog-reset-password-component';
 
 @Component({
   imports: [
@@ -184,6 +187,68 @@ export class UserListComponent {  displayedColumns = [
         )
         .subscribe();
     });
+  }
+
+  excluirUsuario(usuario: UserDTO): void {
+
+    const dialogRef = this.dialog.open(
+      DialogConfirmarDelecaoUsuario,
+      {
+        width: '450px',
+        data: {
+          name: usuario.nameUser,
+          email1: usuario.email1
+        }
+      }
+    );
+
+    dialogRef.afterClosed().subscribe(confirmado => {
+
+      if (!confirmado) {
+        return;
+      }
+
+      this.usuarioService.excluirUsuario(usuario.id_user)
+       .pipe(
+          tap((response:any)=>{
+            this.toastService.success(response.descricao)
+            this.carregarUsuarios();
+          }),
+          catchError(error=>{
+            this.toastService.error(error.descricao);
+            return of(error);
+          }),
+          finalize(() => {
+            this.carregando.set(false);
+          })
+        )
+        .subscribe();
+    });
+  }
+
+  redefinirSenha(usuario: UserDTO): void {
+    this.usuarioService.redefinirSenha(usuario.id_user)
+      .pipe(
+        tap((response:any)=>{
+          this.dialog.open(DialogResetPasswordComponent, {
+          width: '450px',
+          disableClose: true,
+          data: {
+            usuarioName: usuario.nameUser,
+            novaSenha: response.data
+          }
+        });
+
+        }),
+        catchError(error=>{
+          this.toastService.error(error.descricao);
+          return of(error);
+        }),
+        finalize(() => {
+          this.carregando.set(false);
+        })
+      )
+      .subscribe();
   }
 
 

@@ -42,5 +42,20 @@ export class UserService {
 
   }
 
+  excluirUsuario(id: number) {
+    return this.persistenceService
+      .deleteRequest(
+        `/v1/users/${id}`
+      );
+  }
+
+  redefinirSenha(id: number) {
+    return this.persistenceService
+      .postRequest(
+        `/v1/users/${id}/reset-password`,
+        {}
+      );
+  }
+
 }
 

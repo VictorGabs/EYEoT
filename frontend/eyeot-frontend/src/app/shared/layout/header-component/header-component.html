@@ -1,17 +1,55 @@
+
 <mat-toolbar class="main-header">
 
   <button
-      mat-icon-button
-       (click)="abrirMenu()">
+    mat-icon-button
+    (click)="abrirMenu()"
+    aria-label="Abrir menu lateral"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
 
-      <mat-icon>menu</mat-icon>
-
-    </button>
-
-  <img class="branding" src="/EYEoT_Logo_Header.png" alt="EYEoT Logo">
-
+  <img
+    class="branding"
+    src="/EYEoT_Logo_Header.png"
+    alt="EYEoT Logo"
+  >
 
   <span class="spacer"></span>
-  <button matButton (click)="authService.logout()"><mat-icon aria-hidden="false" aria-label="Logout" fontIcon="exit_to_app"></mat-icon><span>Logout</span></button>
+
+  <button
+    mat-button
+    [matMenuTriggerFor]="perfilMenu"
+    class="profile-button"
+  >
+    <mat-icon>account_circle</mat-icon>
+
+    <span class="profile-name">
+      {{ authService.usuarioLogado()?.nameUser }}
+    </span>
+
+    <mat-icon>keyboard_arrow_down</mat-icon>
+  </button>
+
+  <mat-menu #perfilMenu="matMenu">
+
+    <button mat-menu-item (click)="abrirPerfil()">
+      <mat-icon>person</mat-icon>
+      <span>Meu perfil</span>
+    </button>
+
+    <button mat-menu-item (click)="abrirAlterarSenha()">
+      <mat-icon>lock_reset</mat-icon>
+      <span>Alterar senha</span>
+    </button>
+
+    <mat-divider></mat-divider>
+
+    <button mat-menu-item (click)="authService.logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Sair</span>
+    </button>
+
+  </mat-menu>
 
 </mat-toolbar>

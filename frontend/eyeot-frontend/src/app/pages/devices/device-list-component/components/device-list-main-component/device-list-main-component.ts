@@ -155,12 +155,6 @@ export class DeviceListMainComponent {
 
         catchError((error: any) => {
 
-          console.error(
-            'Erro ao carregar dispositivos:',
-            error
-          );
-
-
           this.devices.set([]);
 
           this.dataSource.data = [];

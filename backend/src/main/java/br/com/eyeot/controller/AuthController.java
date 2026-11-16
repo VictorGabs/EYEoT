@@ -5,13 +5,19 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.eyeot.model.dtos.ResponseDTO;
 import br.com.eyeot.model.dtos.UserDTO;
+import br.com.eyeot.model.dtos.UserPasswordUpdateDTO;
+import br.com.eyeot.model.dtos.UserUpdateDTO;
 import br.com.eyeot.model.services.AuthService;
+import br.com.eyeot.model.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -20,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class AuthController {
 
     private final AuthService authService;
+    private final UserService userService;
 
     @GetMapping("/me")
     public ResponseEntity<ResponseDTO<UserDTO>> me(@AuthenticationPrincipal UserDTO userDTO) {
@@ -42,5 +49,22 @@ public class AuthController {
     @GetMapping("/validate")
     public ResponseEntity<Boolean> validate(HttpServletRequest request) {
         return authService.validate(request);
+    }
+
+    @PutMapping("/me")
+    public ResponseEntity<ResponseDTO<UserDTO>> atualizarPerfil(
+            @AuthenticationPrincipal UserDTO userDTO,
+            @Valid @RequestBody UserUpdateDTO dados) {
+
+        return userService.atualizarPerfil(userDTO.id_user(), dados);
+    }
+
+    @PutMapping("/me/password")
+    public ResponseEntity<ResponseDTO<Void>> alterarSenha(
+        @AuthenticationPrincipal UserDTO userDTO,
+        @Valid @RequestBody UserPasswordUpdateDTO dados
+    ) {
+        
+        return userService.alterarSenha(userDTO.id_user(), dados);
     }
 }

@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -64,6 +65,28 @@ public interface DeviceRepository extends  JpaRepository<Device, Integer>, JpaSp
     Optional<Device> findByDeviceIdWithOwner(
         @Param("deviceId") String deviceId
     );
+
+    @Modifying(
+        clearAutomatically = true,
+        flushAutomatically = true
+    )
+    @Query("""
+        UPDATE Device d
+        SET d.owner = null
+        WHERE d.owner.id_user = :idUser
+    """)
+    void desvincularOwner(@Param("idUser") Integer idUser);
+
+    @Modifying(
+        clearAutomatically = true,
+        flushAutomatically = true
+    )
+    @Query("""
+        UPDATE Device d
+        SET d.domain = null
+        WHERE d.domain.owner.id_user = :idUser
+    """)
+    void desvincularDominios(@Param("idUser") Integer idUser);
     
 
 }

@@ -51,7 +51,7 @@
           </th>
 
           <td mat-cell *matCellDef="let device">
-            {{ device.ownerName }}
+            {{ device.ownerName || "Sem proprietário" }}
           </td>
 
         </ng-container>
@@ -63,7 +63,7 @@
           </th>
 
           <td mat-cell *matCellDef="let device">
-            {{ device.ownerEmail }}
+            {{ device.ownerEmail || "Sem email" }}
           </td>
 
         </ng-container>

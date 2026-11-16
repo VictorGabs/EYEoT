@@ -62,8 +62,6 @@ export class TelemetryWebsocketService implements OnDestroy{
                       '/topic/admin/telemetry/changed',
                       (message) => this.processarNotificacao(message)
                     );
-
-                    console.log('Administrador inscrito no canal geral.');
                   }
                 },
                 error: (erro) => {

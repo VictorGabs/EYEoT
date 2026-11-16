@@ -72,11 +72,6 @@ export class SensorTelemetryComponent implements OnChanges, OnDestroy {
         return;
       }
 
-      console.log('Efeito 1 das estatísticas executado:', {
-        sensor,
-        inicio,
-        fim
-      });
 
       this.buscarEstatisticas();
     });
@@ -101,12 +96,6 @@ export class SensorTelemetryComponent implements OnChanges, OnDestroy {
         this.estatisticasTabelaSubscription?.unsubscribe();
         return;
       }
-
-      console.log('Efeito 2 das estatísticas executado:', {
-        sensor,
-        inicio,
-        fim
-      });
 
       this.buscarEstatisticasPaginadas(pagina, tamanho);
     });

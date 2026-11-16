@@ -21,6 +21,8 @@ import br.com.eyeot.model.dtos.forms.UserFormDTO;
 import br.com.eyeot.model.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -67,6 +69,24 @@ public class UserController {
         ) {
 
         return userService.alterarRole(id, dto.role(), userDTO);
+    }
+
+    @DeleteMapping("/{idUser}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<ResponseDTO<Void>> excluirUsuario(
+            @PathVariable Integer idUser,
+            @AuthenticationPrincipal UserDTO usuarioLogado) {
+
+        return userService.excluirUsuario(idUser, usuarioLogado);
+    }
+
+    @PostMapping("/{idUser}/reset-password")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<ResponseDTO<String>> redefinirSenha(
+            @PathVariable Integer idUser,
+            @AuthenticationPrincipal UserDTO userDTO) {
+
+        return ResponseEntity.ok(userService.redefinirSenha(idUser, userDTO));
     }
     
 

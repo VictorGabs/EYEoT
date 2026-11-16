@@ -19,7 +19,6 @@ public class AuthService {
 
     public ResponseEntity<Boolean> validate(HttpServletRequest request){
         if (Objects.isNull(tokenService.validarToken(recoverToken(request)))) {
-            System.out.println(false);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
         }
         return ResponseEntity.ok(true);

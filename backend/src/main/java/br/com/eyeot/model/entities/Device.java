@@ -49,8 +49,8 @@ public class Device {
     @JoinColumn(name = "id_domain")
     private Domain domain;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_owner", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_owner")
     private User owner;
 
     @Column(name = "deviceid", nullable = false, length = 8, columnDefinition = "CHAR(8)")

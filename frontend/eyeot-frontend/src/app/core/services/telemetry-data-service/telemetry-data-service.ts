@@ -355,7 +355,6 @@ export class TelemetryDataService {
         }),
         map(() => undefined),
         catchError(erro => {
-          console.error('Erro ao processar nova telemetria:', erro);
           return of(undefined);
         }),
         finalize(() => {

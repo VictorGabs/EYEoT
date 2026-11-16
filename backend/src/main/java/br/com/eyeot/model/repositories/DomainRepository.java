@@ -2,7 +2,9 @@ package br.com.eyeot.model.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import br.com.eyeot.model.entities.Domain;
 
@@ -18,5 +20,14 @@ public interface DomainRepository extends JpaRepository<Domain, Integer>, JpaSpe
     @Query ("FROM Domain d WHERE d.owner.id_user = :id_user")
     List<Domain> findMyDomains (Integer id_user);
 
+    @Modifying(
+        clearAutomatically = true,
+        flushAutomatically = true
+    )
+    @Query("""
+        DELETE FROM Domain d
+        WHERE d.owner.id_user = :idUser
+    """)
+    void excluirPorUsuario(@Param("idUser") Integer idUser);
 
 }

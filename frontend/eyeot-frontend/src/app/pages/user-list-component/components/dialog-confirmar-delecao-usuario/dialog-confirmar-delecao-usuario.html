@@ -1,0 +1,47 @@
+
+<h2 mat-dialog-title>
+  Excluir usuário
+</h2>
+
+<mat-dialog-content>
+  <div class="conteudo">
+
+    <mat-icon>
+      person_remove
+    </mat-icon>
+
+    <p>
+      Você está prestes a excluir o usuário
+      <strong>
+        {{ data.usuario.name }}
+      </strong>.
+    </p>
+
+    <span class="aviso">
+      Essa operação é permanente e excluirá todos os domínios
+      associados a esse usuário.
+    </span>
+
+    <span class="aviso">
+      Os dispositivos, sensores e telemetrias serão preservados,
+      mas os dispositivos ficarão sem proprietário e sem domínio.
+    </span>
+
+    <p class="confirmacao">
+      Deseja realmente continuar?
+    </p>
+
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+
+  <button mat-button (click)="cancelar()">
+    Cancelar
+  </button>
+
+  <button mat-flat-button color="warn" (click)="confirmar()">
+    Excluir usuário
+  </button>
+
+</mat-dialog-actions>

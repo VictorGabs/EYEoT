@@ -454,15 +454,16 @@ public class DeviceService {
     private DeviceResumeDTO converterParaResumeDTO(Device device) {
 
         Domain domain = device.getDomain();
+        User owner = device.getOwner();
 
-        return new DeviceResumeDTO(
+         return new DeviceResumeDTO(
             device.getId_device(),
             device.getDeviceId().trim(),
             domain != null ? domain.getId_domain() : null,
             domain != null ? domain.getDomainName() : null,
-            device.getOwner().getId_user(),
-            device.getOwner().getName(),
-            device.getOwner().getEmail1(),
+            owner != null ? owner.getId_user() : null,
+            owner != null ? owner.getName() : null,
+            owner != null ? owner.getEmail1() : null,
             device.getCreationDate(),
             device.getEnable(),
             device.getLatitude(),

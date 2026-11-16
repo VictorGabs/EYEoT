@@ -103,16 +103,7 @@ export class DeviceListFilterComponent {
         },
 
         error: (error) => {
-
-          console.error(
-            'Erro ao carregar domínios:',
-            error
-          );
-
-          this.toastService.error(
-            'Não foi possível carregar os domínios.'
-          );
-
+          this.toastService.error( error.descricao || 'Não foi possível carregar os domínios.' );
         }
 
       });

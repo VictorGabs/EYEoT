@@ -29,17 +29,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-         if (request.getRequestURI().equals("/ws")) {
-            System.out.println("Requisição WebSocket passou pelo filtro JWT");
-        }
-
         var token = tokenService.recoverToken(request);
-
-        if (request.getRequestURI().equals("/ws")) {
-            System.out.println(
-                "JWT encontrado: " + (token != null)
-            );
-        }
         
         if (token != null) {
             var email = tokenService.validarToken(token);
@@ -62,13 +52,6 @@ public class SecurityFilter extends OncePerRequestFilter {
                 }
             }
         }
-
-        System.out.println(
-            "Método: " + request.getMethod()
-            + " | URI: " + request.getRequestURI()
-            + " | Autenticado: "
-            + (SecurityContextHolder.getContext().getAuthentication() != null)
-        );
        
         filterChain.doFilter(request, response);
     }
