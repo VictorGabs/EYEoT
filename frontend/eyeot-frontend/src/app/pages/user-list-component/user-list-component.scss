@@ -1,0 +1,239 @@
+.usuarios-card {
+  margin: 20px;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.header-content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 8px 0 20px;
+}
+
+mat-card-title {
+  font-size: 22px;
+  font-weight: 500;
+  color: #111827;
+}
+
+mat-card-subtitle {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.contador {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: #f3f4f6;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+.contador strong {
+  font-size: 18px;
+  color: #111827;
+}
+
+.contador span {
+  font-size: 13px;
+}
+
+.barra-acoes {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.campo-pesquisa {
+  width: 100%;
+  max-width: 500px;
+}
+
+.campo-pesquisa mat-icon {
+  margin-right: 5px;
+  color: #6b7280;
+}
+
+.filter-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+}
+
+.filter-actions button {
+  min-height: 42px;
+  padding: 0 18px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.filter-actions mat-icon {
+  margin-right: 6px;
+}
+.filter-actions .btn-clear {
+  border: 1px solid #d1d5db;
+  color: #4b5563;
+  background: #fff;
+}
+
+.filter-actions .btn-clear:hover {
+  background: #f9fafb;
+}
+.filter-actions .btn-apply {
+  border: 1px solid #d1d5db;
+  color: #4b5563;
+  background: #fff;
+}
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  min-width: 650px;
+}
+
+.mat-mdc-header-row {
+  height: 52px;
+  background: #f8f9fc;
+}
+
+.mat-mdc-header-cell {
+  color: #6b7280;
+  font-size: .76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .05rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.mat-mdc-row {
+  height: 68px;
+  transition: background .15s ease;
+}
+
+.mat-mdc-row:hover {
+  background: #fafafa;
+}
+
+.mat-mdc-cell {
+  border-bottom: 1px solid #f0f2f5;
+  color: #374151;
+  font-size: .92rem;
+}
+
+.usuario-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #eef2ff;
+  color: #3730a3;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.nome {
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.email {
+  color: #6b7280;
+}
+
+.papel-select {
+  width: 160px;
+  margin: 8px 0;
+}
+
+mat-paginator {
+  border-top: 1px solid #ececec;
+  margin-top: 0;
+}
+
+.sem-registros {
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #6b7280;
+  text-align: center;
+  border: 1px dashed #d1d5db;
+  border-radius: 10px;
+  background: #f9fafb;
+  margin-top: 10px;
+}
+
+.sem-registros mat-icon {
+  width: 42px;
+  height: 42px;
+  font-size: 42px;
+  color: #9ca3af;
+  margin-bottom: 5px;
+}
+
+.sem-registros strong {
+  color: #374151;
+  font-size: 15px;
+}
+
+.sem-registros span {
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+
+  .usuarios-card {
+    margin: 12px;
+  }
+
+  .header-content {
+    align-items: flex-start;
+  }
+
+  .contador {
+    display: none;
+  }
+
+  .barra-acoes {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .campo-pesquisa {
+    max-width: none;
+  }
+
+  .botao-pesquisar, .filter-actions button {
+    width: 100%;
+  }
+
+  .filter-actions{
+    flex-direction: column;
+  }
+
+}

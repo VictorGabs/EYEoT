@@ -58,6 +58,9 @@ export class AuthService {
             response.data as UserDTO;
 
           this.usuarioLogado.set(usuario);
+          console.log('Usuario logado:', usuario);
+          console.log('Papel do usuário:', usuario.role);
+          console.log('É admin?', usuario.role === RolesEnum.ROLE_ADMIN);
 
           return usuario.role === RolesEnum.ROLE_ADMIN;
         }),

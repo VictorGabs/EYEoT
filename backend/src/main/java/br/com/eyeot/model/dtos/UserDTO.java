@@ -7,7 +7,7 @@ import br.com.eyeot.enuns.RolesEnum;
 public record UserDTO(
     Integer id_user,
     RolesEnum role,
-    String name,
+    String nameUser,
     String phone,
     String email1,
     String email2

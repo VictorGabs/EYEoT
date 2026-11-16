@@ -11,6 +11,7 @@ import { SensorsListComponent } from './pages/sensors/sensors-list-component/sen
 import { SensorTypesListComponent } from './pages/sensor-types/sensor-types-list-component/sensor-types-list-component';
 import { DeviceTelemetryComponent } from './pages/devices/device-telemetry-component/device-telemetry-component';
 import { adminGuard } from './core/guards/admin-guard/admin-guard-guard';
+import { UserListComponent } from './pages/user-list-component/user-list-component';
 
 export const routes: Routes = [
   {
@@ -59,7 +60,12 @@ export const routes: Routes = [
         path: 'devices/:idDevice/telemetry',
         component: DeviceTelemetryComponent,
         canActivate: [authGuard]
-      }
+      },
+      {
+         path: 'usuarios',
+         component: UserListComponent,
+         canActivate:[adminGuard]
+     }
 
     ]
   }

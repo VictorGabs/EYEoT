@@ -1,0 +1,320 @@
+<app-toast-component></app-toast-component>
+<mat-card class="usuarios-card">
+
+  <mat-card-header>
+
+    <div class="header-content">
+
+      <div>
+
+        <mat-card-title>
+          Gestão de usuários
+        </mat-card-title>
+
+        <mat-card-subtitle>
+          Gerencie as permissões dos usuários do sistema.
+        </mat-card-subtitle>
+
+      </div>
+
+      <div class="contador">
+
+        <strong>
+          {{ totalElementos }}
+        </strong>
+
+        <span>
+          {{ totalElementos === 1 ? 'usuário' : 'usuários' }}
+        </span>
+
+      </div>
+
+    </div>
+
+  </mat-card-header>
+
+  <mat-card-content>
+
+    <div class="barra-acoes">
+      <mat-form-field
+        appearance="outline"
+        class="campo-pesquisa">
+
+        <mat-label>
+          Buscar usuário
+        </mat-label>
+
+        <mat-icon matPrefix>
+          search
+        </mat-icon>
+
+        <input
+          matInput
+          [(ngModel)]="busca"
+          (keyup.enter)="pesquisar()"
+          placeholder="Nome ou e-mail">
+
+      </mat-form-field>
+
+      <div class="filter-actions">
+
+          <button
+            matButton
+            type="button"
+            class="btn-clear"
+            (click)="limparPesquisa()">
+
+            <mat-icon>clear</mat-icon>
+            <span>Limpar busca</span>
+
+
+          </button>
+
+          <button
+            matButton
+            class="btn-apply"
+            color="primary"
+            type="submit"
+            (click)="pesquisar()">
+
+            <mat-icon>search</mat-icon>
+            <span>Pesquisar</span>
+
+
+          </button>
+
+      </div>
+
+
+    </div>
+
+    @if (carregando()) {
+
+      <mat-progress-bar
+        mode="indeterminate">
+      </mat-progress-bar>
+
+    }
+
+    @else if (dataSource.data.length > 0) {
+
+      <div class="table-wrapper">
+
+        <table mat-table [dataSource]="dataSource">
+
+          <ng-container matColumnDef="nome">
+
+            <th mat-header-cell *matHeaderCellDef> Nome </th>
+
+            <td mat-cell *matCellDef="let usuario">
+
+              <div class="usuario-info">
+
+                <div class="avatar">
+                  {{ getInicial(usuario.nameUser) }}
+                </div>
+
+                <div class="usuario-nome">
+                  <span class="nome">
+                    {{ usuario.nameUser }}
+                  </span>
+                </div>
+
+              </div>
+
+            </td>
+
+          </ng-container>
+
+
+          <ng-container matColumnDef="email_principal">
+
+            <th mat-header-cell *matHeaderCellDef>
+              E-mail Principal
+            </th>
+
+            <td
+              mat-cell
+              *matCellDef="let usuario">
+
+              <span class="email">
+                {{ usuario.email1 }}
+              </span>
+
+            </td>
+
+          </ng-container>
+
+          <ng-container matColumnDef="email_secundario">
+
+            <th mat-header-cell *matHeaderCellDef>
+              E-mail Secundário
+            </th>
+
+            <td
+              mat-cell
+              *matCellDef="let usuario">
+
+              <span class="email">
+                {{ usuario.email2 || 'Não informado' }}
+              </span>
+
+            </td>
+
+          </ng-container>
+
+          <ng-container matColumnDef="phone">
+
+            <th mat-header-cell *matHeaderCellDef>
+              Telefone
+            </th>
+
+            <td
+              mat-cell
+              *matCellDef="let usuario">
+
+              <span class="email">
+                {{ usuario.phone || 'Não informado' }}
+              </span>
+
+            </td>
+
+          </ng-container>
+
+          <ng-container matColumnDef="role">
+
+            <th mat-header-cell *matHeaderCellDef>
+              Role
+            </th>
+
+            <td mat-cell *matCellDef="let usuario">
+
+              <mat-form-field appearance="outline" class="papel-select">
+
+                <mat-select
+                  [value]="papelVisual.get(usuario.id_user) ?? usuario.role"
+                  (selectionChange)="
+                    alterarPapel(usuario, $event.value)
+                  ">
+
+                  @for (
+                    role of roles;
+                    track role
+                  ) {
+
+                    <mat-option [value]="role">
+
+                      {{ getRoleLabel(role) }}
+
+                    </mat-option>
+
+                  }
+
+                </mat-select>
+
+              </mat-form-field>
+
+            </td>
+
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>
+            Ações
+          </th>
+
+          <td mat-cell *matCellDef="let domain">
+
+
+            <button
+              mat-icon-button
+              aria-label="Resetar senha do usuário"
+              matTooltip="Resetar senha"            >
+              <mat-icon>refresh</mat-icon>
+            </button>
+
+            <button
+              mat-icon-button
+              aria-label="Exclusão de usuário"
+              matTooltip="Excluir usuário"
+            >
+              <mat-icon>delete_forever</mat-icon>
+            </button>
+
+          </td>
+        </ng-container>
+
+
+          <tr
+            mat-header-row
+            *matHeaderRowDef="displayedColumns">
+          </tr>
+
+
+          <tr
+            mat-row
+            *matRowDef="
+              let row;
+              columns: displayedColumns;
+            ">
+          </tr>
+
+        </table>
+
+      </div>
+
+
+
+      <mat-paginator
+        [length]="totalElementos"
+        [pageIndex]="pageIndex"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="[5, 10, 20]"
+        (page)="mudouPagina($event)"
+        showFirstLastButtons>
+      </mat-paginator>
+
+    }
+
+    @else {
+
+      <div class="sem-registros">
+
+        <mat-icon>
+          person_search
+        </mat-icon>
+
+        <strong>
+          Nenhum usuário encontrado
+        </strong>
+
+        @if (busca) {
+
+          <span>
+            Tente pesquisar por outro nome ou e-mail.
+          </span>
+
+          <button
+            mat-button
+            (click)="limparPesquisa()">
+
+            Limpar pesquisa
+
+          </button>
+
+        }
+        @else {
+
+          <span>
+            Nenhum usuário cadastrado.
+          </span>
+
+        }
+
+      </div>
+
+    }
+
+  </mat-card-content>
+
+</mat-card>

@@ -3,6 +3,10 @@ package br.com.eyeot.model.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -13,11 +17,13 @@ import org.springframework.stereotype.Service;
 import br.com.eyeot.enuns.RolesEnum;
 import br.com.eyeot.model.dtos.LoginRequestDTO;
 import br.com.eyeot.model.dtos.ResponseDTO;
+import br.com.eyeot.model.dtos.UserDTO;
 import br.com.eyeot.model.dtos.UserResumeDTO;
 import br.com.eyeot.model.dtos.forms.UserFormDTO;
 import br.com.eyeot.model.entities.User;
 import br.com.eyeot.model.repositories.UserRepository;
 import br.com.eyeot.security.TokenService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -95,33 +101,83 @@ public class UserService {
         }
     }
 
-    // public ResponseEntity<ResponseDTO<List<UserDTO>>> listarTodosUsuariosPaginado(UserFiltroDTO domainFiltroDTO, UserDTO userDTO, Pageable pageable){
-    //     try{
-    //         Sort sort = Sort.by(Sort.Order.asc("name"));
+    public ResponseEntity<ResponseDTO<List<UserDTO>>> listarTodosUsuariosPaginado(String busca, UserDTO userDTO, Integer page, Integer size){
+        if(!userDTO.role().equals(RolesEnum.ROLE_ADMIN)){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ResponseDTO.<List<UserDTO>>builder()
+                .status(HttpStatus.FORBIDDEN.toString())
+                .descricao("Acesso negado. Usuário não possui permissão para listar todos os usuários.")
+                .data(null).build());
+        }
 
-    //         Pageable pageableOrdenado = PageRequest.of(
-    //             pageable.getPageNumber(),
-    //             pageable.getPageSize(),
-    //             sort
-    //         );
-    //         List<User> entities = userRepository.findAll();
-    //         List<UserDTO> dtos = entities.stream().map((user) -> 
-    //             new UserDTO(user.getId_user(),
-    //                         user.getPapel(), 
-    //                         user.getName(), 
-    //                         user.getPhone(), 
-    //                         user.getEmail1(),
-    //                         user.getEmail2())).toList();
+        try{
+            Sort sort = Sort.by(Sort.Order.asc("name"));
 
-    //         return ResponseEntity.ok().body(ResponseDTO.<List<UserDTO>>builder()
-    //             .status(HttpStatus.OK.toString())
-    //             .descricao("Listagem de Usuarios com seus dados resumidos.")
-    //             .data(dtos).build());
-    //     } catch (Exception e){
-    //         return ResponseEntity.internalServerError().body(ResponseDTO.<List<UserDTO>>builder()
-    //             .status(HttpStatus.INTERNAL_SERVER_ERROR.toString())
-    //             .descricao("Erro ao listar usuários.")
-    //             .data(null).build());
-    //     }
-    // }
+            Pageable pageableOrdenado = PageRequest.of(
+                page,
+                size,
+                sort
+            );
+
+            Page<User> entities;
+
+            if (busca != null && !busca.isBlank()) {
+                entities = userRepository.buscarUsuariosPaginado(busca, pageableOrdenado);
+            }
+            else {
+                entities = userRepository.findAll(pageableOrdenado);
+            }   
+
+            List<UserDTO> dtos = entities.getContent().stream().map((user) -> 
+                new UserDTO(user.getId_user(),
+                            user.getPapel(), 
+                            user.getName(), 
+                            user.getPhone(), 
+                            user.getEmail1(),
+                            user.getEmail2())).toList();
+
+            return ResponseEntity.ok().body(ResponseDTO.<List<UserDTO>>builder()
+                .status(HttpStatus.OK.toString())
+                .descricao("Listagem de Usuarios com seus dados resumidos.")
+                .data(dtos)
+                .pageNumber(entities.getNumber())
+                .totalElements(entities.getTotalElements())
+                .totalPages(entities.getTotalPages())
+                .pageSize(entities.getSize()).build());
+
+        } catch (Exception e){
+            return ResponseEntity.internalServerError().body(ResponseDTO.<List<UserDTO>>builder()
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.toString())
+                .descricao("Erro ao listar usuários.")
+                .data(null).build());
+        }
+    }
+
+    @Transactional
+    public ResponseEntity<ResponseDTO<Void>> alterarRole(Integer id, RolesEnum novaRole, UserDTO userDTO){ 
+
+        if(!userDTO.role().equals(RolesEnum.ROLE_ADMIN)){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ResponseDTO.<Void>builder()
+                .status(HttpStatus.FORBIDDEN.toString())
+                .descricao("Acesso negado. Usuário não possui permissão para alterar o papel de outros usuários.")
+                .data(null).build());
+        }
+
+        try{
+            User usuario =
+            userRepository.findById(id)
+                .orElseThrow(() ->
+                    new EntityNotFoundException(
+                        "Usuário não encontrado"
+                    )
+                );
+
+            usuario.setPapel(novaRole);
+
+            return ResponseEntity.ok(ResponseDTO.<Void>builder().descricao("Papel de Usuário atualizada!").status(HttpStatus.OK.toString()).build());
+ 
+        } catch(Exception e){
+            return ResponseEntity.badRequest().body(ResponseDTO.<Void>builder().descricao("Erro ao atualizar papel!").status(HttpStatus.OK.toString()).build());
+        }
+        
+    }
 }

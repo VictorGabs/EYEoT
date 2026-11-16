@@ -1,0 +1,55 @@
+<h2 mat-dialog-title>
+
+  Alterar role do usuário
+
+</h2>
+
+
+<mat-dialog-content>
+
+  <div class="conteudo">
+
+    <mat-icon>
+      admin_panel_settings
+    </mat-icon>
+
+    <p>
+
+      Você deseja alterar a role de
+
+      <strong>
+        {{ data.usuario.name }}
+      </strong>
+
+      para
+
+      <strong>
+        {{ data.novoPapel }}
+      </strong>?
+
+    </p>
+
+    <span class="aviso">
+
+      Essa alteração modificará as permissões
+      do usuário no sistema.
+
+    </span>
+
+  </div>
+
+</mat-dialog-content>
+
+
+<mat-dialog-actions align="end">
+
+  <button mat-button (click)="cancelar()">
+    Cancelar
+  </button>
+
+
+  <button mat-flat-button (click)="confirmar()">
+    Confirmar
+  </button>
+
+</mat-dialog-actions>

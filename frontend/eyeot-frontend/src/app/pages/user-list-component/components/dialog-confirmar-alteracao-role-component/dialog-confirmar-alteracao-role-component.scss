@@ -1,0 +1,31 @@
+.conteudo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 10px 0;
+}
+
+.conteudo mat-icon {
+  width: 45px;
+  height: 45px;
+  font-size: 45px;
+  color: #6b7280;
+  margin-bottom: 10px;
+}
+
+.conteudo p {
+  margin: 0;
+  line-height: 1.6;
+  color: #374151;
+}
+
+.conteudo strong {
+  color: #111827;
+}
+
+.aviso {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #6b7280;
+}
