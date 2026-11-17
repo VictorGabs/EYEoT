@@ -60,7 +60,7 @@ export class SensorListMainComponent {
     'deviceId',
     'deviceOwnerName',
     'deviceOwnerEmail',
-    'id_sensortype',
+    'dataType',
     'description',
     'physicalQuantity',
     'measureUnit',
@@ -158,6 +158,21 @@ export class SensorListMainComponent {
         })
       )
       .subscribe();
+  }
+
+  protected converterDataType(dataType: number): string {
+    switch (dataType) {
+      case 1:
+        return 'Real';
+      case 2:
+        return 'Booleano';
+      case 3:
+        return 'GPS';
+      case 4:
+        return 'Acelerômetro';
+      default:
+        return 'Inteiro';
+    }
   }
 
 

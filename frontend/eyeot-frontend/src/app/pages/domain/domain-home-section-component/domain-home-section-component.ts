@@ -12,13 +12,14 @@ import { DialogRegisterDomainHomeComponent } from '../../../shared/dialogs/dialo
 import { Router, RouterLink } from '@angular/router';
 import { DomainService } from '../../../core/services/domain-service/domain-service';
 import { AuthService } from '../../../core/services/auth-service/auth-service';
+import { DomainCardComponent } from './components/domain-card-component/domain-card-component';
 
 
 
 
 @Component({
   selector: 'app-domain-home-section-component',
-  imports: [MatCardModule,MatDividerModule, MatProgressBarModule, MatButtonModule, MatIconModule, RouterLink],
+  imports: [MatCardModule,MatDividerModule, MatProgressBarModule, MatButtonModule, MatIconModule, RouterLink, DomainCardComponent],
   templateUrl: './domain-home-section-component.html',
   styleUrl: './domain-home-section-component.scss',
 })

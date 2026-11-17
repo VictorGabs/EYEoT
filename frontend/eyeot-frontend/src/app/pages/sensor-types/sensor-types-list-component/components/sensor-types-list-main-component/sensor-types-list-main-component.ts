@@ -56,7 +56,8 @@ export class SensorTypesListMainComponent {
     'minValue',
     'maxValue',
     'physicalQuantity',
-    'measureUnit',
+    'retentionPeriod',
+    'summaryPeriod',
     'averageInterval',
     'actions'
   ];
@@ -133,6 +134,21 @@ export class SensorTypesListMainComponent {
         }
       });
     }
+
+  protected converterDataType(dataType: number): string {
+    switch (dataType) {
+      case 1:
+        return 'Real';
+      case 2:
+        return 'Booleano';
+      case 3:
+        return 'GPS';
+      case 4:
+        return 'Acelerômetro';
+      default:
+        return 'Inteiro';
+    }
+  }
 
 
 }

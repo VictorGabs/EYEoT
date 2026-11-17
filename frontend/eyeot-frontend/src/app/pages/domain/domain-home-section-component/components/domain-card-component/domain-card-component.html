@@ -1,0 +1,54 @@
+<article class="domain-card">
+
+  <div class="card-header">
+
+    <div class="domain-icon">
+      <mat-icon>domain</mat-icon>
+    </div>
+
+    <span class="device-count">
+      <mat-icon>devices</mat-icon>
+      {{ domain.numDevices || 0 }}
+      {{ domain.numDevices === 1 ? 'dispositivo' : 'dispositivos' }}
+    </span>
+
+  </div>
+
+  <div class="card-content">
+
+    <div class="domain-information">
+
+      <h2>{{ domain.domainName }}</h2>
+
+      <span class="owner">
+        <mat-icon>person_outline</mat-icon>
+        {{ domain.ownerName }}
+      </span>
+
+    </div>
+
+    <p class="description">
+      {{ domain.description || 'Nenhuma descrição informada para este domínio.' }}
+    </p>
+
+  </div>
+
+  <div class="card-footer">
+
+    <a
+      mat-button
+      class="view-devices"
+      [routerLink]="['/devices']"
+      [queryParams]="{
+        idDomain: domain.id_domain
+      }">
+
+      <mat-icon>devices</mat-icon>
+      Ver dispositivos
+      <mat-icon class="arrow">arrow_forward</mat-icon>
+
+    </a>
+
+  </div>
+
+</article>
