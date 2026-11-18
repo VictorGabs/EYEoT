@@ -187,9 +187,13 @@
 
             <span class="value">
 
-              @if (type.minValue !== null) {
+              @if (type.dataType == 3) {
+                Não aplicável
+              }@else if (type.minValue !== null) {
                 {{ type.minValue }}
-              } @else {
+              }
+
+              @else {
                 Não definido
               }
 
@@ -206,7 +210,9 @@
 
             <span class="value">
 
-              @if (type.maxValue !== null) {
+              @if (type.dataType == 3) {
+                Não aplicável
+              }@else if (type.maxValue !== null) {
                 {{ type.maxValue }}
               } @else {
                 Não definido

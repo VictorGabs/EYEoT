@@ -42,8 +42,10 @@
 
           <td mat-cell *matCellDef="let sensorType">
             @if(sensorType.dataType === 2) {
-              {{ sensorType.minValue }}
-            } @else {
+              {{ sensorType.minValue}}
+            }@else if (sensorType.dataType === 3) {
+              Não aplicável
+            }@else {
               {{ sensorType.minValue }}{{ sensorType.measureUnit }}
             }
           </td>
@@ -56,8 +58,10 @@
 
           <td mat-cell *matCellDef="let sensorType">
             @if(sensorType.dataType === 2) {
-               {{ sensorType.maxValue || "Não informado"}}
-            } @else {
+               {{ sensorType.maxValue }}
+            }@else if (sensorType.dataType === 3) {
+              Não aplicável
+            }@else {
               {{ sensorType.maxValue }}{{ sensorType.measureUnit }}
             }
 
@@ -94,7 +98,11 @@
           </th>
 
           <td mat-cell *matCellDef="let sensorType">
-            {{ sensorType.summaryPeriod+" minutos" || "Não informado" }}
+            @if(sensorType.dataType == 2 || sensorType.dataType == 3 || sensorType.dataType == 4){
+              Não aplicável
+            }@else{
+              {{ sensorType.summaryPeriod+" minutos" || "Não informado" }}
+            }
           </td>
         </ng-container>
 

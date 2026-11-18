@@ -118,23 +118,14 @@
               <mat-icon>visibility</mat-icon>
           </button>
 
-            <button
-              mat-icon-button
-              aria-label="Edição de sensor"
-              matTooltip="Editar sensor"
-              (click)="abrirDialogUpdateSensor(sensor)"
-            >
-              <mat-icon>edit</mat-icon>
-            </button>
-
-             <button
-              mat-icon-button
-              aria-label="Exclusão de sensor"
-              matTooltip="Excluir sensor"
-              (click)="excluirSensor(sensor)"
-            >
-              <mat-icon>delete_forever</mat-icon>
-            </button>
+          <button
+            mat-icon-button
+            aria-label="Exclusão de sensor"
+            matTooltip="Excluir sensor"
+            (click)="excluirSensor(sensor)"
+          >
+            <mat-icon>delete_forever</mat-icon>
+          </button>
 
           </td>
         </ng-container>

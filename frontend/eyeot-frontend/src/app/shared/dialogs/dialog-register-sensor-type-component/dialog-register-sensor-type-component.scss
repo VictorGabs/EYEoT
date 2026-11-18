@@ -81,10 +81,14 @@ mat-dialog-actions {
   }
 }
 
+.mat-mdc-dialog-content {
+  height: 470px;
+}
+
 @media (max-width: 650px) {
 
-  .sensor-form {
-    grid-template-columns: 1fr;
+  .sensor-type-form {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
   }
 
   .full-width {

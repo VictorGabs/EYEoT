@@ -29,7 +29,11 @@ export class SensorTypesListComponent {
   }
 
   abrirDialogRegisterSensorType(){
-    const dialogRef = this.dialog.open(DialogRegisterSensorTypeComponent)
+    const dialogRef = this.dialog.open(DialogRegisterSensorTypeComponent, {
+              width: '650px',
+              maxWidth: '95vw'
+            }
+          );
     dialogRef.afterClosed().subscribe(resultado => {
       if (resultado === true) {
         this.sensorTypeService.notificarAlteracao();

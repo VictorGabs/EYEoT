@@ -32,7 +32,7 @@ export class SensorsListComponent {
   abrirDialogRegisterSensor(){
     const dialogRef = this.dialog.open( DialogRegisterSensorComponent,
       {
-        width: '650px',
+        height: '750px',
         maxWidth: '95vw'
       }
     );

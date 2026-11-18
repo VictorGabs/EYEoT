@@ -1,8 +1,13 @@
+
 .usuarios-card {
   margin: 20px;
   border-radius: 14px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   overflow: hidden;
+
+  @media (max-width: 768px) {
+    margin: 12px;
+  }
 }
 
 .header-content {
@@ -12,18 +17,23 @@
   justify-content: space-between;
   gap: 20px;
   padding: 8px 0 20px;
+
+  @media (max-width: 768px) {
+    align-items: flex-start;
+  }
 }
 
 mat-card-title {
-  font-size: 22px;
-  font-weight: 500;
-  color: #111827;
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.15;
 }
 
 mat-card-subtitle {
   margin-top: 5px;
-  font-size: 14px;
   color: #6b7280;
+  font-size: 14px;
 }
 
 .contador {
@@ -35,15 +45,19 @@ mat-card-subtitle {
   background: #f3f4f6;
   color: #6b7280;
   white-space: nowrap;
-}
 
-.contador strong {
-  font-size: 18px;
-  color: #111827;
-}
+  strong {
+    color: #111827;
+    font-size: 18px;
+  }
 
-.contador span {
-  font-size: 13px;
+  span {
+    font-size: 13px;
+  }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 }
 
 .barra-acoes {
@@ -51,16 +65,25 @@ mat-card-subtitle {
   align-items: center;
   gap: 10px;
   margin-bottom: 12px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
 
 .campo-pesquisa {
   width: 100%;
   max-width: 500px;
-}
 
-.campo-pesquisa mat-icon {
-  margin-right: 5px;
-  color: #6b7280;
+  mat-icon {
+    margin-right: 5px;
+    color: #6b7280;
+  }
+
+  @media (max-width: 768px) {
+    max-width: none;
+  }
 }
 
 .filter-actions {
@@ -68,31 +91,40 @@ mat-card-subtitle {
   justify-content: flex-end;
   align-items: center;
   gap: 12px;
+
+  button {
+    min-height: 42px;
+    padding: 0 18px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #fff;
+    color: #4b5563;
+    font-weight: 600;
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+
+  mat-icon {
+    margin-right: 6px;
+  }
+
+  .btn-clear {
+    &:hover {
+      background: #f9fafb;
+    }
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 }
 
-.filter-actions button {
-  min-height: 42px;
-  padding: 0 18px;
-  border-radius: 8px;
-  font-weight: 600;
-}
-
-.filter-actions mat-icon {
-  margin-right: 6px;
-}
-.filter-actions .btn-clear {
-  border: 1px solid #d1d5db;
-  color: #4b5563;
-  background: #fff;
-}
-
-.filter-actions .btn-clear:hover {
-  background: #f9fafb;
-}
-.filter-actions .btn-apply {
-  border: 1px solid #d1d5db;
-  color: #4b5563;
-  background: #fff;
+.botao-pesquisar {
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 }
 
 .table-wrapper {
@@ -105,34 +137,6 @@ table {
   min-width: 650px;
 }
 
-.mat-mdc-header-row {
-  height: 52px;
-  background: #f8f9fc;
-}
-
-.mat-mdc-header-cell {
-  color: #6b7280;
-  font-size: .76rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .05rem;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.mat-mdc-row {
-  height: 68px;
-  transition: background .15s ease;
-}
-
-.mat-mdc-row:hover {
-  background: #fafafa;
-}
-
-.mat-mdc-cell {
-  border-bottom: 1px solid #f0f2f5;
-  color: #374151;
-  font-size: .92rem;
-}
 
 .usuario-info {
   display: flex;
@@ -155,8 +159,8 @@ table {
 }
 
 .nome {
-  font-weight: 500;
   color: #1f2937;
+  font-weight: 500;
 }
 
 .email {
@@ -169,8 +173,8 @@ table {
 }
 
 mat-paginator {
-  border-top: 1px solid #ececec;
   margin-top: 0;
+  border-top: 1px solid #ececec;
 }
 
 .sem-registros {
@@ -180,60 +184,27 @@ mat-paginator {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  color: #6b7280;
-  text-align: center;
+  margin-top: 10px;
   border: 1px dashed #d1d5db;
   border-radius: 10px;
   background: #f9fafb;
-  margin-top: 10px;
-}
+  color: #6b7280;
+  text-align: center;
 
-.sem-registros mat-icon {
-  width: 42px;
-  height: 42px;
-  font-size: 42px;
-  color: #9ca3af;
-  margin-bottom: 5px;
-}
-
-.sem-registros strong {
-  color: #374151;
-  font-size: 15px;
-}
-
-.sem-registros span {
-  font-size: 14px;
-}
-
-@media (max-width: 768px) {
-
-  .usuarios-card {
-    margin: 12px;
+  mat-icon {
+    width: 42px;
+    height: 42px;
+    margin-bottom: 5px;
+    color: #9ca3af;
+    font-size: 42px;
   }
 
-  .header-content {
-    align-items: flex-start;
+  strong {
+    color: #374151;
+    font-size: 15px;
   }
 
-  .contador {
-    display: none;
+  span {
+    font-size: 14px;
   }
-
-  .barra-acoes {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .campo-pesquisa {
-    max-width: none;
-  }
-
-  .botao-pesquisar, .filter-actions button {
-    width: 100%;
-  }
-
-  .filter-actions{
-    flex-direction: column;
-  }
-
 }
